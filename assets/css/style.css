@@ -220,7 +220,9 @@
 .book-section .book-card {
   max-width: 380px;
   display: flex;
+  width: 100%;
   gap: 1rem;
+  transition: box-shadow 0.3s ease, background 0.3s ease;
   align-items: center;
 }
 .book-section .book-card .cover {
@@ -228,22 +230,22 @@
   object-fit: cover;
 }
 .book-section .book-card .status {
-  color: green;
+  color: #65c100;
   font-weight: 500;
   margin-top: 0.5rem;
+  font-size: 0.75rem;
 }
 .book-section .book-card .title {
   font-weight: bold;
-  font-size: 1rem;
+  font-size: 0.875rem;
   margin-top: 0.3rem;
 }
 .book-section .book-card .author,
 .book-section .book-card .genre {
-  font-size: 0.85rem;
-  color: #555;
+  font-size: 0.75rem;
 }
 .book-section .book-card .rating {
-  font-size: 0.9rem;
+  font-size: 0.75rem;
   margin-top: 0.3rem;
 }
 .book-section .book-card .rating .stars {
@@ -253,9 +255,68 @@
 .book-section .book-card .stats {
   display: flex;
   gap: 1rem;
-  font-size: 0.85rem;
+  font-size: 0.75rem;
   margin-top: 0.3rem;
-  color: #444;
+}
+.book-section .book-card:hover {
+  background: white;
+  box-shadow: 0px 0px 60px 0px rgba(0, 0, 0, 0.15);
+}
+
+.featured-books {
+  padding: 2rem;
+}
+.featured-books h2 {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.5rem;
+}
+.featured-books .carousel .carousel-cell {
+  width: 220px;
+  margin-right: 20px;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.3s ease;
+}
+.featured-books .carousel .carousel-cell:hover {
+  transform: scale(1.05);
+}
+.featured-books .carousel .carousel-cell img {
+  width: 100%;
+  display: block;
+}
+.featured-books .carousel .carousel-cell .overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  padding: 0.75rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.featured-books .carousel .carousel-cell .overlay .title {
+  font-weight: bold;
+  font-size: 1rem;
+}
+.featured-books .carousel .carousel-cell .overlay .author {
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+}
+.featured-books .carousel .carousel-cell:hover .overlay {
+  opacity: 1;
+}
+.featured-books .carousel .flickity-page-dots {
+  bottom: -30px;
+}
+.featured-books .carousel .flickity-page-dots .dot {
+  background: #ccc;
+}
+.featured-books .carousel .flickity-page-dots .dot.is-selected {
+  background: #28a745;
 }
 
 body {
