@@ -23,7 +23,7 @@
     }
 
     & h1 {
-      font-size: 1rem;
+      font-size: 1.125rem;
       margin: 0;
     }
 
@@ -111,6 +111,7 @@
       img {
         width: 24px;
         height: 24px;
+        cursor: pointer;
       }
 
       &.notification .badge {
@@ -120,6 +121,7 @@
         background-color: #65c100;
         color: white;
         font-size: 0.65rem;
+        cursor: pointer;
         border-radius: 50%;
         padding: 3.5px 6.5px;
       }
@@ -131,10 +133,4 @@
       border-radius: 50%;
     }
   }
-}
-
-// Optional: Add margin-top to content wrapper so it doesn't hide under fixed header
-.main-content-wrapper {
-  margin-left: 250px; // if sidebar is 250px
-  padding-top: 80px; // header height
 }
