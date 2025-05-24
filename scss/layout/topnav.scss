@@ -1,0 +1,140 @@
+.top-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100px;
+  background: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  z-index: 1000;
+
+  &__left {
+    display: flex;
+    align-items: center;
+
+    .logo {
+      width: 40px;
+      height: 40px;
+      margin-right: 1rem;
+    }
+
+    & h1 {
+      font-size: 1rem;
+      margin: 0;
+    }
+
+    & span {
+      font-size: 0.75rem;
+      color: #aaaaaa;
+    }
+  }
+
+  &__center {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+
+    .search-bar {
+      position: relative;
+      width: 100%;
+      max-width: 400px;
+
+      input {
+        width: 100%;
+        padding: 0.5rem 0rem 0.5rem 1rem;
+        border: 1px solid #dddddd;
+        font-family: inherit;
+        height: 2rem;
+        border: 1px solid #ddd;
+        display: flex;
+        flex: 1;
+        outline: none;
+      }
+
+      .search-btn {
+        position: absolute;
+        right: 0rem;
+        top: 50%;
+        transform: translateY(-50%);
+        background: #f9f9fb;
+        border: none;
+        height: 100%;
+        border-left: 1px solid #ddd;
+        padding: 0.3rem 0.7rem;
+        cursor: pointer;
+
+        img {
+          width: 20px;
+          height: 20px;
+        }
+      }
+
+      .search-suggestions {
+        position: absolute;
+        top: 110%;
+        left: 0;
+        right: 0;
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        z-index: 10;
+
+        li {
+          padding: 0.5rem 1rem;
+          cursor: pointer;
+
+          &:hover {
+            background-color: #f8f8f8;
+          }
+        }
+
+        &.hidden {
+          display: none;
+        }
+      }
+    }
+  }
+
+  &__right {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+
+    .icon-button {
+      position: relative;
+
+      img {
+        width: 24px;
+        height: 24px;
+      }
+
+      &.notification .badge {
+        position: absolute;
+        top: -6px;
+        right: -6px;
+        background-color: #65c100;
+        color: white;
+        font-size: 0.65rem;
+        border-radius: 50%;
+        padding: 3.5px 6.5px;
+      }
+    }
+
+    .avatar img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+    }
+  }
+}
+
+// Optional: Add margin-top to content wrapper so it doesn't hide under fixed header
+.main-content-wrapper {
+  margin-left: 250px; // if sidebar is 250px
+  padding-top: 80px; // header height
+}

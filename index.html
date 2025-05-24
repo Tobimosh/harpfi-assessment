@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Korapay Book Club</title>
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <aside class="sidebar">
+      <nav class="sidebar__nav">
+        <ul class="sidebar__section">
+          <li class="active"><a href="#">Home</a></li>
+          <li><a href="#">Profile</a></li>
+          <li>
+            <a href="#">Notifications <span class="badge">3</span> </a>
+          </li>
+        </ul>
+
+        <p class="sidebar__label">Explore</p>
+        <ul class="sidebar__section">
+          <li>
+            <a href="#">Books <span class="count">273</span></a>
+          </li>
+          <li>
+            <a href="#">Genres <span class="count">42</span></a>
+          </li>
+          <li>
+            <a href="#">Authors <span class="count">106</span></a>
+          </li>
+        </ul>
+
+        <p class="sidebar__label">My Books</p>
+        <ul class="sidebar__section">
+          <li>
+            <a href="#">Queued <span class="count">3</span></a>
+          </li>
+          <li>
+            <a href="#">Currently Borrowed <span class="count">0</span></a>
+          </li>
+          <li>
+            <a href="#">Favourites <span class="count">19</span></a>
+          </li>
+          <li><a href="#">History</a></li>
+        </ul>
+
+        <p class="sidebar__label">Admin</p>
+        <ul class="sidebar__section">
+          <li>
+            <a href="#">Book Requests <span class="badge">2</span> </a>
+          </li>
+          <li>
+            <a href="#">Members <span class="count">34</span></a>
+          </li>
+          <li><a href="#">Library Settings</a></li>
+        </ul>
+      </nav>
+    </aside>
+    <div class="main-content-wrapper">
+      <header class="header">
+        <div class="top-nav">
+          <div class="top-nav__left">
+            <img src="assets/icons/logo.svg" alt="Logo" class="logo" />
+            <div class="top-nav__title">
+              <h1>Korapay Book Club</h1>
+              <span>Admin</span>
+            </div>
+          </div>
+
+          <div class="top-nav__center">
+            <div class="search-bar">
+              <input type="text" placeholder="Search books, authors..." />
+              <button class="search-btn">
+                <img src="assets/icons/search.svg" alt="Search" />
+              </button>
+              <ul class="search-suggestions hidden">
+                <li>
+                  <strong>Built to Last</strong> - Jim Collins, Jerry I. Porras
+                </li>
+                <li>
+                  <strong>Four Steps To The Epiphany</strong> - James McEnroe
+                </li>
+                <li><strong>The Lean Start Up</strong> - Eric Reiss</li>
+                <li><strong>No Excuses</strong> - Brian Tracy</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="top-nav__right">
+            <div class="icon-button">
+              <img src="assets/icons/books.svg" alt="Books" />
+            </div>
+            <div class="icon-button notification">
+              <img src="assets/icons/notification.svg" alt="Notifications" />
+              <span class="badge">3</span>
+            </div>
+            <div class="avatar">
+              <img src="assets/images/user-avatar.svg" alt="User Avatar" />
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <section class="featured-books">
+          <!-- Flickity carousel -->
+        </section>
+
+        <section class="book-section recently-added">
+          <!-- Grid of recently added books -->
+        </section>
+      </main>
+    </div>
+  </body>
+</html>
