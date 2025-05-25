@@ -11,7 +11,10 @@
       href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/flickity@2/dist/flickity.min.css"
+    />
   </head>
   <body>
     <aside class="sidebar">
@@ -110,12 +113,20 @@
 
       <main>
         <section class="featured-books book-section">
-          <h2 class="section-title">Featured Books</h2>
-          <div class="carousel js-flickity" data-flickity='{  "wrapAround": true,
-          "pageDots": true,
-          "prevNextButtons": true,
-          "draggable": true,
-          "freeScroll": false}' id="featured-carousel">
+          <h2 class="section-title">FEATURED BOOKS</h2>
+          <div
+            class="carousel js-flickity"
+            data-flickity='{
+                    "wrapAround": true,
+                    "pageDots": true,
+                    "prevNextButtons": true,
+                    "draggable": true,
+                    "freeScroll": false,
+                    "cellAlign": "left",
+                    "contain": true
+                 }'
+            id="featured-carousel"
+          ></div>
         </section>
 
         <section class="book-section">
@@ -126,13 +137,11 @@
         <section class="book-section">
           <h2 class="section-title">All Books</h2>
           <div class="book-list" id="allBookList"></div>
-
         </section>
       </main>
     </div>
 
     <script src="/js/main.js"></script>
     <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
-
   </body>
 </html>
