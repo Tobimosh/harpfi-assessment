@@ -15,6 +15,7 @@
         overflow: hidden;
         cursor: pointer;
         position: relative;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
         transition: transform 0.3s ease;
   
         &:hover {
@@ -30,20 +31,21 @@
           position: absolute;
           bottom: 0;
           left: 0;
+          top: 0;
           right: 0;
-          background: rgba(0, 0, 0, 0.6);
+          background: rgba(0, 0, 0, 0.68);
           color: #fff;
-          padding: 0.75rem;
+          padding: 2rem;
           opacity: 0;
           transition: opacity 0.3s ease;
   
           .title {
             font-weight: bold;
-            font-size: 1rem;
+            font-size: 1.125rem;
           }
   
           .author {
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             margin-top: 0.25rem;
           }
         }

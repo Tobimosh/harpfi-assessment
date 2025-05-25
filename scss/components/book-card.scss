@@ -38,6 +38,15 @@
       font-weight: 500;
       margin-top: 0.5rem;
       font-size: 0.75rem;
+
+
+      &.available {
+        color: #65c100;
+      }
+    
+      &.borrowed {
+        color: #e63946;
+      }
     }
 
     .title {

@@ -59,14 +59,14 @@ const allBooks = [
   },
   {
     title: "Built To Last",
-    author: "Eric Reis",
-    year: 2005,
-    genre: "Motivational",
+    author: "Jim Collins, Jerry I. Porras",
+    year: 2001,
+    genre: "Business, Entrepreneurship",
     rating: 4,
     status: "Borrowed Out",
     readers: 31,
     likes: 29,
-    coverUrl: "images/lean-startup.png",
+    coverUrl: "images/built-to-last.png",
   },
   {
     title: "The Lean Startup",
@@ -107,6 +107,7 @@ const featuredBooks = [
   {
     title: "Big Magic",
     author: "Elizabeth Gilbert",
+
     image: "/assets/images/big-magic.png",
   },
   {
@@ -138,14 +139,22 @@ const allBookList = document.getElementById("allBookList");
 document.addEventListener("DOMContentLoaded", () => {
   const carousel = document.getElementById("featured-carousel");
 
-  featuredBooks.forEach((book) => {
+  allBooks.forEach((book) => {
     const cell = document.createElement("div");
     cell.className = "carousel-cell";
     cell.innerHTML = `
-        <img src="${book.image}" alt="${book.title}">
+        <img src="/assets/${book.coverUrl}" alt="${book.title}">
         <div class="overlay">
-          <div class="title">${book.title}</div>
+      <p class="status ${
+        book.status === "Available" ? "available" : "borrowed"
+      }">${book.status}</p>          <div class="title">${book.title}</div>
+          <div class="author">${book.author}</div><br/>
+          <div class="year">${book.year}</div><br/>
+            <div><strong>Genre: </strong>${book.genre}</div>
           <div class="author">${book.author}</div>
+                      <div><strong>Labels: </strong>${book.labels}</div>
+            <div><strong>Ratings: </strong>${book.rating}</div>
+
         </div>
       `;
     carousel.appendChild(cell);
@@ -158,8 +167,9 @@ recentlyAddedBooks.forEach((book) => {
   bookCard.innerHTML = `
       <img src="/assets/${book.coverUrl}" alt="${book.title}" class="cover" />
       <div>
-      <p class="status">${book.status}</p>
-      <h3 class="title">${book.title}</h3>
+      <p class="status ${
+        book.status === "Available" ? "available" : "borrowed"
+      }">${book.status}</p>      <h3 class="title">${book.title}</h3>
       <p class="author">${book.author} - ${book.year || "Year Unknown"}</p>
       <p class="genre">${book.genre}</p>
       <div class="rating">
@@ -177,13 +187,15 @@ recentlyAddedBooks.forEach((book) => {
   recentlyAddedBookList.appendChild(bookCard);
 });
 
-allBookList.forEach((book) => {
+allBooks.forEach((book) => {
   const bookCard = document.createElement("div");
   bookCard.className = "book-card";
   bookCard.innerHTML = `
         <img src="/assets/${book.coverUrl}" alt="${book.title}" class="cover" />
         <div>
-        <p class="status">${book.status}</p>
+        <p class="status ${
+          book.status === "Available" ? "available" : "borrowed"
+        }">${book.status}</p>
         <h3 class="title">${book.title}</h3>
         <p class="author">${book.author} - ${book.year || "Year Unknown"}</p>
         <p class="genre">${book.genre}</p>
