@@ -5,12 +5,18 @@
 
   .carousel {
     position: relative;
+  
+
+    .is_draggable {
+      user-select: none;
+    }
 
     .carousel-cell {
       width: 220px;
       height: 330px;
       margin-right: 20px;
       overflow: hidden;
+      outline: none;
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       cursor: pointer;
@@ -161,7 +167,7 @@
     }
 
     .flickity-button {
-      background: #F8F8FACC;
+      background: #f8f8facc;
       border: none;
       border-radius: 50%;
       width: 44px;

@@ -150,19 +150,16 @@
 }
 .top-nav__center .search-bar .search-suggestions {
   position: absolute;
-  top: 100%;
+  top: 110%;
   left: 0;
   right: 0;
-  list-style: none;
   background: white;
-  border: 1px solid #eeeeee;
+  border: 1px solid #EEEEEE;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
   z-index: 10;
 }
 .top-nav__center .search-bar .search-suggestions li {
-  padding: 1rem 1rem;
-  list-style: none;
-  font-size: 0.875rem;
+  padding: 0.5rem 1rem;
   cursor: pointer;
 }
 .top-nav__center .search-bar .search-suggestions li:hover {
@@ -314,15 +311,11 @@
 .featured-books .carousel {
   position: relative;
 }
-.featured-books .carousel .is_draggable {
-  user-select: none;
-}
 .featured-books .carousel .carousel-cell {
   width: 220px;
   height: 330px;
   margin-right: 20px;
   overflow: hidden;
-  outline: none;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   cursor: pointer;

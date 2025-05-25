@@ -76,6 +76,7 @@ const recentlyAddedBookList = document.getElementById("recentlyAddedBookList");
 const allBookList = document.getElementById("allBookList");
 const searchInput = document.getElementById("searchInput");
 const searchSuggestions = document.getElementById("searchSuggestions");
+let flickityInstance = null;
 
 function generateStars(rating) {
   return Array.from({ length: 5 }, (_, i) =>
@@ -119,53 +120,69 @@ function renderBookCard(book) {
 
 function renderBooks(container, bookArray) {
   container.innerHTML = "";
+
+  if (books.length === 0) {
+    container.innerHTML = `<p class="not-found">No ${sectionName} books found.</p>`;
+    return;
+  }
   bookArray.forEach((book) => {
     container.appendChild(renderBookCard(book));
   });
 }
 
 function renderFeaturedBooks(bookArray) {
+  if (flickityInstance) {
+    flickityInstance.destroy();
+    flickityInstance = null;
+  }
+
   featuredCarousel.innerHTML = "";
+
+  if (books.length === 0) {
+    carousel.innerHTML = `<p class="not-found">No featured books found.</p>`;
+    return;
+  }
+
   bookArray.forEach((book) => {
     const cell = document.createElement("div");
     cell.className = "carousel-cell";
     cell.innerHTML = `
-        <img src="/assets/${book.coverUrl}" alt="${book.title}">
-        <div class="overlay">
-          <div class="overlay__content">
-            <p class="status ${
-              book.status === "Available" ? "available" : "borrowed"
-            }">${book.status}</p>
-            <div class="title">${book.title}</div>
-            <div class="author">${book.author}</div>
-            <div class="year">${book.year}</div>
-            <div class="info-section">
-              <strong>Genre:</strong> ${book.genre} <br/>
-              <strong class="labels">Labels:</strong> ${book.labels || "N/A"}
+      <img src="/assets/${book.coverUrl}" alt="${book.title}">
+      <div class="overlay">
+        <div class="overlay__content">
+          <p class="status ${
+            book.status === "Available" ? "available" : "borrowed"
+          }">${book.status}</p>
+          <div class="title">${book.title}</div>
+          <div class="author">${book.author}</div>
+          <div class="year">${book.year}</div>
+          <div class="info-section">
+            <strong>Genre:</strong> ${book.genre} <br/>
+            <strong class="labels">Labels:</strong> ${book.labels || "N/A"}
+          </div>
+          <div class="rating-container">
+            <div class="rating">
+              <div><strong> Ratings:</strong> ${book.rating}</div>
+              <span class="stars">${generateStars(book.rating)}</span>
             </div>
-            <div class="rating-container">
-              <div class="rating">
-                <div><strong> Ratings:</strong> ${book.rating}</div>
-                <span class="stars">${generateStars(book.rating)}</span>
+            <div class="stats">
+              <div class="readers">
+                <img src="/assets/icons/group-grey.svg" alt="group-icon"/> 
+                <span>${book.readers}</span>
               </div>
-              <div class="stats">
-                <div class="readers">
-                  <img src="/assets/icons/group-grey.svg" alt="group-icon"/> 
-                  <span>${book.readers}</span>
-                </div>
-                <div class="likes">
-                  <img src="/assets/icons/heart-grey.svg" alt="heart-icon"/> 
-                  <span>${book.likes}</span>
-                </div>
+              <div class="likes">
+                <img src="/assets/icons/heart-grey.svg" alt="heart-icon"/> 
+                <span>${book.likes}</span>
               </div>
             </div>
           </div>
-        </div>`;
+        </div>
+      </div>`;
     featuredCarousel.appendChild(cell);
   });
 
   setTimeout(() => {
-    new Flickity(featuredCarousel, {
+    flickityInstance = new Flickity(featuredCarousel, {
       wrapAround: true,
       pageDots: true,
       prevNextButtons: true,
@@ -174,7 +191,7 @@ function renderFeaturedBooks(bookArray) {
       cellAlign: "left",
       contain: true,
     });
-  }, 100);
+  }, 50);
 }
 
 function updateSuggestions(bookArray) {
@@ -202,7 +219,6 @@ function filterBooks(query) {
   updateSuggestions(filtered);
 }
 
-// Initial render
 document.addEventListener("DOMContentLoaded", () => {
   renderBooks(
     recentlyAddedBookList,
@@ -212,7 +228,6 @@ document.addEventListener("DOMContentLoaded", () => {
   renderFeaturedBooks(books.filter((b) => b.isFeatured));
 });
 
-// Search events
 searchInput.addEventListener("input", (e) => {
   const query = e.target.value.trim();
   if (query) {
