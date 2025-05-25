@@ -107,7 +107,6 @@
         .rating-container {
           display: flex;
           gap: 0.625rem;
-          //   justify-content: space-between;
           margin-top: 0.3rem;
           align-items: center;
 
@@ -161,14 +160,13 @@
       }
     }
 
-    // Custom Flickity navigation arrows
     .flickity-button {
-      background: rgba(255, 255, 255, 0.8);
+      background: #F8F8FACC;
       border: none;
       border-radius: 50%;
       width: 44px;
       height: 44px;
-      opacity: 0.6;
+      opacity: 0.2;
       transition: opacity 0.3s ease;
 
       &:hover {
@@ -186,11 +184,11 @@
     }
 
     .flickity-prev-next-button.previous {
-      left: -22px;
+      left: -50px;
     }
 
     .flickity-prev-next-button.next {
-      right: -22px;
+      right: -50px;
     }
 
     // Custom pagination dots

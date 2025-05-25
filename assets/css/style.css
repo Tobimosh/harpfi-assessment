@@ -1,5 +1,5 @@
 .sidebar {
-  width: 300px;
+  width: 310px;
   background: #fff;
   padding: 2rem 1rem;
   height: 100vh;
@@ -76,7 +76,7 @@
 }
 
 .main-content-wrapper {
-  margin-left: 340px;
+  margin-left: 350px;
   padding-top: 100px;
 }
 
@@ -154,8 +154,7 @@
   left: 0;
   right: 0;
   background: white;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  border: 1px solid #EEEEEE;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
   z-index: 10;
 }
@@ -438,12 +437,12 @@
   opacity: 1;
 }
 .featured-books .carousel .flickity-button {
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(248, 248, 250, 0.8);
   border: none;
   border-radius: 50%;
   width: 44px;
   height: 44px;
-  opacity: 0.6;
+  opacity: 0.2;
   transition: opacity 0.3s ease;
 }
 .featured-books .carousel .flickity-button:hover {
@@ -457,10 +456,10 @@
   fill: #333;
 }
 .featured-books .carousel .flickity-prev-next-button.previous {
-  left: -22px;
+  left: -50px;
 }
 .featured-books .carousel .flickity-prev-next-button.next {
-  right: -22px;
+  right: -50px;
 }
 .featured-books .carousel .flickity-page-dots {
   bottom: -40px;

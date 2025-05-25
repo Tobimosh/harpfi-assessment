@@ -79,11 +79,16 @@
 
           <div class="top-nav__center">
             <div class="search-bar">
-              <input type="text" placeholder="Search books, authors..." />
+              <input
+                type="text"
+                autocomplete="off"
+                placeholder="Search books, genres, authors..."
+                id="searchInput"
+              />
               <button class="search-btn">
                 <img src="assets/icons/search.svg" alt="Search" />
               </button>
-              <ul class="search-suggestions hidden">
+              <ul class="search-suggestions hidden" id="searchSauggestions">
                 <li>
                   <strong>Built to Last</strong> - Jim Collins, Jerry I. Porras
                 </li>
