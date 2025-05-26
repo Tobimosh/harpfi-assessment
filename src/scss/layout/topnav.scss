@@ -79,18 +79,21 @@
         left: 0;
         right: 0;
         list-style: none;
+        width: 100%;
         background: white;
         border: 1px solid #eeeeee;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
         z-index: 10;
 
-   
-
-        li {
-          padding: 1rem 1rem;
+        p {
+          padding: 0.75rem 1rem;
           list-style: none;
           font-size: 0.875rem;
           cursor: pointer;
+
+          .grey {
+            color: #999999;
+          }
 
           &:hover {
             background-color: #f8f8f8;

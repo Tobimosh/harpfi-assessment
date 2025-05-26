@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Korapay Book Club</title>
-    <link rel="stylesheet" href="/src/css/style.css" />
+    <!-- <link rel="stylesheet" href="/src/css/style.css" /> -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -88,16 +88,18 @@
               <button class="search-btn">
                 <img src="assets/icons/search.svg" alt="Search" />
               </button>
-              <ul class="search-suggestions hidden" id="searchSuggestions">
-                <li>
-                  <strong>Built to Last</strong> - Jim Collins, Jerry I. Porras
-                </li>
-                <li>
-                  <strong>Four Steps To The Epiphany</strong> - James McEnroe
-                </li>
-                <li><strong>The Lean Start Up</strong> - Eric Reiss</li>
-                <li><strong>No Excuses</strong> - Brian Tracy</li>
-              </ul>
+              <div class="search-suggestions hidden" id="searchSuggestions">
+                <p>
+                  <span>Built to Last</span
+                  ><span class="grey"> - Jim Collins, Jerry I. Porras</span>
+                </p>
+                <p>
+                  <span>Four Steps To The Epiphany</span>
+                  <span class="grey"> - James McEnroe </span>
+                </p>
+                <p><span>The Lean Start Up</span> <span>- Eric Reiss</span></p>
+                <p><span>No Excuses</span> <span class="grey">- Brian Tracy</span></p>
+              </div>
             </div>
           </div>
 
@@ -146,7 +148,7 @@
       </main>
     </div>
 
-    <script src="/src/main.js"></script>
+    <script type="module" src="/src/main.js"></script>
     <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
   </body>
 </html>
