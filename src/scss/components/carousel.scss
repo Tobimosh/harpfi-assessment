@@ -1,11 +1,16 @@
 .featured-books {
-  padding: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
+  padding: 1.6875rem 0 2rem 0;
+  // max-width: 1200px;
+  width: 100%;
+  position: relative;
+
+
+  h2{
+    margin: 0;
+  }
 
   .carousel {
     position: relative;
-  
 
     .is_draggable {
       user-select: none;
@@ -17,6 +22,7 @@
       margin-right: 20px;
       overflow: hidden;
       outline: none;
+      display: inline-block;
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       cursor: pointer;
@@ -167,47 +173,55 @@
     }
 
     .flickity-button {
-      background: #f8f8facc;
+      background: rgba(255, 255, 255, 0.8);
       border: none;
       border-radius: 50%;
       width: 44px;
       height: 44px;
-      opacity: 0.2;
-      transition: opacity 0.3s ease;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      opacity: 0.4;
+      z-index: 10;
 
       &:hover {
         opacity: 1;
-        background: rgba(255, 255, 255, 0.95);
       }
 
       &:disabled {
-        opacity: 0.3;
+        opacity: 0.2;
       }
 
       .flickity-button-icon {
         fill: #333;
+        width: 18px;
+        height: 18px;
       }
     }
 
     .flickity-prev-next-button.previous {
-      left: -50px;
+      left: 16px;
     }
 
     .flickity-prev-next-button.next {
-      right: -50px;
+      right: 16px;
     }
-
     // Custom pagination dots
     .flickity-page-dots {
-      bottom: -40px;
-      text-align: center;
+      bottom: -30px;
+      position: absolute;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      padding: 0;
 
       .dot {
         width: 8px;
         height: 8px;
-        background: #d1d5db;
-        border-radius: 50%;
         margin: 0 4px;
+        background: #cbd5e1;
+        border-radius: 50%;
         transition: background-color 0.3s ease;
 
         &.is-selected {

@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Korapay Book Club</title>
-    <!-- <link rel="stylesheet" href="/src/css/style.css" /> -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -85,20 +84,20 @@
                 placeholder="Search books, genres, authors..."
                 id="searchInput"
               />
-              <button class="search-btn">
+              <button class="search-btn" onclick="">
                 <img src="assets/icons/search.svg" alt="Search" />
               </button>
               <div class="search-suggestions hidden" id="searchSuggestions">
                 <p>
                   <span>Built to Last</span
-                  ><span class="grey"> - Jim Collins, Jerry I. Porras</span>
+                  ><span class="grey"> - Jim Collins, Jerry I. Porras...</span>
                 </p>
                 <p>
                   <span>Four Steps To The Epiphany</span>
                   <span class="grey"> - James McEnroe </span>
                 </p>
                 <p><span>The Lean Start Up</span> <span>- Eric Reiss</span></p>
-                <p><span>No Excuses</span> <span class="grey">- Brian Tracy</span></p>
+                <p class="grey"><span>No Excuses</span> <span class="grey">- Brian Tracy</span></p>
               </div>
             </div>
           </div>
@@ -149,6 +148,6 @@
     </div>
 
     <script type="module" src="/src/main.js"></script>
-    <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+    <script type="module" src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
   </body>
 </html>

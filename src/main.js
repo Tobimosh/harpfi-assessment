@@ -1,4 +1,6 @@
 import "./scss/index.scss";
+import "flickity/css/flickity.css";
+
 
 const books = [
   {
