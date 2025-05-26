@@ -1,7 +1,6 @@
 import "./scss/index.scss";
 import "flickity/css/flickity.css";
 
-
 const books = [
   {
     title: "The Effective Engineer",
@@ -122,19 +121,25 @@ function renderBookCard(book) {
   return bookCard;
 }
 
-function renderBooks(container, bookArray) {
+function renderBooks(
+  container,
+  bookArray,
+  sectionName = "books",
+  searchParams
+) {
   container.innerHTML = "";
 
-  if (books.length === 0) {
-    container.innerHTML = `<p class="not-found">No ${sectionName} books found.</p>`;
+  if (bookArray.length === 0) {
+    container.innerHTML = `<p class="not-found">No ${sectionName} found with the search criteria <strong>"${searchParams}"</strong>.</p>`;
     return;
   }
+
   bookArray.forEach((book) => {
     container.appendChild(renderBookCard(book));
   });
 }
 
-function renderFeaturedBooks(bookArray) {
+function renderFeaturedBooks(bookArray, searchParams) {
   if (flickityInstance) {
     flickityInstance.destroy();
     flickityInstance = null;
@@ -142,8 +147,8 @@ function renderFeaturedBooks(bookArray) {
 
   featuredCarousel.innerHTML = "";
 
-  if (books.length === 0) {
-    carousel.innerHTML = `<p class="not-found">No featured books found.</p>`;
+  if (bookArray.length === 0) {
+    featuredCarousel.innerHTML = `<p class="not-found">There's no featured book with the search criteria <strong>"${searchParams}"</strong>.</p>`;
     return;
   }
 
@@ -200,7 +205,7 @@ function renderFeaturedBooks(bookArray) {
 
 function updateSuggestions(bookArray) {
   const titles = [...new Set(bookArray.map((b) => b.title))];
-  searchSuggestions.innerHTML = titles.map((t) => `<li>${t}</li>`).join("");
+  searchSuggestions.innerHTML = titles.map((t) => `<p>${t}</p>`).join("");
   searchSuggestions.classList.toggle("hidden", titles.length === 0);
 }
 
@@ -215,10 +220,15 @@ function filterBooks(query) {
 
   renderBooks(
     recentlyAddedBookList,
-    filtered.filter((b) => b.isRecentlyAdded)
+    filtered.filter((b) => b.isRecentlyAdded),
+    "recently added books",
+    q
   );
-  renderBooks(allBookList, filtered);
-  renderFeaturedBooks(filtered.filter((b) => b.isFeatured));
+  renderBooks(allBookList, filtered, "books", q);
+  renderFeaturedBooks(
+    filtered.filter((b) => b.isFeatured),
+    q
+  );
 
   updateSuggestions(filtered);
 }
@@ -260,7 +270,7 @@ searchInput.addEventListener("blur", () => {
 });
 
 searchSuggestions.addEventListener("click", (e) => {
-  if (e.target.tagName === "LI") {
+  if (e.target.tagName === "P") {
     const title = e.target.innerText.trim();
     searchInput.value = title;
     filterBooks(title);
