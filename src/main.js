@@ -79,6 +79,34 @@ const recentlyAddedBookList = document.getElementById("recentlyAddedBookList");
 const allBookList = document.getElementById("allBookList");
 const searchInput = document.getElementById("searchInput");
 const searchSuggestions = document.getElementById("searchSuggestions");
+
+window.onload = function () {
+  const rightSvg = document.querySelector(
+    ".flickity-prev-next-button.next svg"
+  );
+  if (rightSvg) {
+    rightSvg.style.transform = "translateX(-48%) rotate(180deg)";
+  }
+
+  const rightArrowPath = "M10,50 L40,50 L80,50 L50,0 L50,100 L80,50 L40,50";
+  const leftArrowPath = "M90,50 L60,50 L20,50 L50,0 L50,100 L20,50 L60,50";
+
+  const leftArrow = document.querySelector(
+    ".flickity-prev-next-button.previous .arrow"
+  );
+  const rightArrow = document.querySelector(
+    ".flickity-prev-next-button.next .arrow"
+  );
+
+  if (leftArrow) {
+    leftArrow.setAttribute("d", leftArrowPath);
+  }
+
+  if (rightArrow) {
+    rightArrow.setAttribute("d", rightArrowPath);
+  }
+};
+
 let flickityInstance = null;
 
 function generateStars(rating) {
@@ -157,6 +185,7 @@ function renderFeaturedBooks(bookArray, searchParams) {
     cell.className = "carousel-cell";
     cell.innerHTML = `
       <img src="/assets/${book.coverUrl}" alt="${book.title}">
+      <div class="shadow-box"></div>
       <div class="overlay">
         <div class="overlay__content">
           <p class="status ${
@@ -276,4 +305,27 @@ searchSuggestions.addEventListener("click", (e) => {
     filterBooks(title);
     searchSuggestions.classList.add("hidden");
   }
+});
+
+//Logic for opening and closing modal
+
+const overlay = document.querySelector(".overlay");
+
+document.addEventListener("DOMContentLoaded", () => {
+  const sidebar = document.querySelector(".sidebar");
+  const openBtn = document.querySelector(".hamburger");
+  const closeBtn = document.querySelector(".close-drawer");
+
+  openBtn?.addEventListener("click", () => {
+    sidebar?.classList.add("open");
+  });
+
+  closeBtn?.addEventListener("click", () => {
+    sidebar?.classList.remove("open");
+  });
+  
+  overlay?.addEventListener("click", () => {
+    sidebar?.classList.remove("open");
+    overlay?.classList.add("hidden");
+  });
 });

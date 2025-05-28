@@ -1,6 +1,7 @@
 .featured-books {
   padding: 1.6875rem 0 2rem 0;
   width: 100%;
+  margin-bottom: 4.5rem;
   position: relative;
 
   h2 {
@@ -30,15 +31,25 @@
       width: 220px;
       height: 330px;
       margin-right: 20px;
-      overflow: hidden;
+      // overflow: ;
       outline: none;
       display: inline-block;
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       cursor: pointer;
+      overflow: visible !important;
+      z-index: 50;
       position: relative;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      // box-shadow: 0 24px 8px rgba(0, 0, 0, 0.2);
+
       transition: all 0.3s ease;
+
+      .carousel-cell img {
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover;
+      }
 
       &:hover {
         transform: translateY(-4px);
@@ -183,17 +194,28 @@
     }
 
     .flickity-button {
-      background: rgba(255, 255, 255, 0.8);
-      border: none;
-      border-radius: 50%;
-      width: 44px;
-      height: 44px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+      // background: rgba(255, 255, 255, 0.85);
+      background-color: black;
       position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
+      top: 23px;
+      transform: translateY(-23px);
+      border: none;
+      border-right: 1.2px solid #fff;
+      width: 2.5rem;
+      height: 405px;
+      border-radius: 0%;
       opacity: 0.4;
       z-index: 10;
+
+      svg,
+      .flickity-button-icon {
+        width: 40px;
+        height: 13px;
+        position: absolute;
+        left: 50%;
+        top: 40%;
+        transform: translateX(-48%);
+      }
 
       &:hover {
         opacity: 1;
@@ -202,24 +224,20 @@
       &:disabled {
         opacity: 0.2;
       }
-
-      .flickity-button-icon {
-        fill: #333;
-        width: 18px;
-        height: 18px;
-      }
     }
 
     .flickity-prev-next-button.previous {
-      left: 16px;
+      opacity: 1;
+      left: 3px;
     }
 
     .flickity-prev-next-button.next {
-      right: 16px;
+      opacity: 1;
+      right: -5px;
     }
-    // Custom pagination dots
+
     .flickity-page-dots {
-      bottom: -30px;
+      bottom: -42px;
       position: absolute;
       width: 100%;
       display: flex;
@@ -230,14 +248,52 @@
         width: 8px;
         height: 8px;
         margin: 0 4px;
-        background: #cbd5e1;
+        background: #DDDDDD;
         border-radius: 50%;
         transition: background-color 0.3s ease;
 
         &.is-selected {
-          background: #22c55e;
+          background: #64c000;
         }
       }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .featured-books {
+    padding: 1.25rem 0 1.875rem 0;
+    margin-bottom: 3rem;
+
+    .carousel .carousel-cell {
+      width: 140px;
+      height: 210px;
+      margin-right: 5px;
+    }
+
+    .carousel .flickity-button {
+      width: 1.875rem;
+      height: 271px;
+      background-color: black;
+    }
+
+    .carousel .flickity-prev-next-button.previous {
+      left: 0;
+    }
+    .carousel .flickity-prev-next-button.next {
+      right: 0;
+    }
+
+    .carousel .flickity-page-dots{
+      bottom: -30px;
+    }
+
+    .not-found {
+      padding: 0 1.875rem;
+    }
+
+    h2 {
+      display: none;
     }
   }
 }

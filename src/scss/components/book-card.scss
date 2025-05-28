@@ -4,7 +4,6 @@
 
   .section-title {
     font-size: 0.875rem;
-    letter-spacing: 0.1em;
     margin-bottom: 1.5rem;
     font-weight: 400;
     padding-bottom: 1.2rem;
@@ -30,14 +29,14 @@
     align-items: center;
 
     .cover {
-      width: 106;
+      width: 106px;
       height: 100%;
       object-fit: cover;
     }
 
     .status {
       color: #65c100;
-      font-weight: 500;
+      font-weight: 400;
       margin-top: 0.5rem;
       font-size: 0.75rem;
 
@@ -53,18 +52,20 @@
     .title {
       font-weight: bold;
       font-size: 0.875rem;
+      margin-bottom: 0;
       margin-top: 0.3rem;
     }
 
     .author,
     .genre {
       font-size: 0.75rem;
+      margin: 0.4rem 0;
     }
 
     .rating-container {
       display: flex;
       gap: 0.5rem;
-      margin-top: 0.3rem;
+      margin-top: 0.6rem;
       align-items: center;
 
       .rating {
@@ -119,6 +120,18 @@
     &:hover {
       background: white;
       box-shadow: 0px 0px 60px 0px rgba(0, 0, 0, 0.15);
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .book-section {
+    padding: 1.875rem;
+    padding-top: 0;
+
+    .section-title{
+      padding-bottom: 0.6rem;
+      margin-bottom: 0.6rem;
     }
   }
 }
