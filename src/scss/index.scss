@@ -1,11 +1,10 @@
 @use "./layout/sidebar";
 @use "./layout/topnav";
+@use "./layout/main";
 
 @use "./components/book-card";
 @use "./components/carousel";
 
-body {
-  margin: 0 auto;
-  box-sizing: border-box;
-  font-family: "Ubuntu", sans-serif;
-}
+
+
+

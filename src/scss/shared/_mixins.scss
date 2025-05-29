@@ -1,0 +1,74 @@
+@mixin search-bar($inputHeight: 2.5rem) {
+  position: relative;
+  width: 100%;
+  display: flex;
+  // flex: 1;
+
+  input {
+    width: 100%;
+    padding: 0rem 0rem 0rem 1.3125rem;
+    font-family: inherit;
+    height: $inputHeight;
+    border: 1px solid #ddd;
+    display: flex;
+    flex: 1;
+    outline: none;
+  }
+
+  .search-btn {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #f9f9fb;
+    border: none;
+    width: 40px;
+    height: 100%;
+    border-left: none;
+    border: 1px solid #dddd;
+    cursor: pointer;
+
+    img {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  .search-suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    list-style: none;
+    width: 100%;
+    background: white;
+    border: 1px solid #eeeeee;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    z-index: 10;
+
+    p {
+      padding: 1rem 1.875rem;
+      margin: 0 auto;
+      font-size: 0.875rem;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #f8f8f8;
+      }
+    }
+
+    .grey {
+      color: #999999;
+    }
+
+    &.hidden {
+      display: none;
+    }
+  }
+}
+
+@media (min-width: 1024px) {
+  .search-bar {
+    max-width: 540px;
+  }
+}

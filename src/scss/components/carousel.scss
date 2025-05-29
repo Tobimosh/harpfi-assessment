@@ -194,8 +194,8 @@
     }
 
     .flickity-button {
-      // background: rgba(255, 255, 255, 0.85);
-      background-color: black;
+      background: rgba(255, 255, 255, 0.85);
+      // background-color: black;
       position: absolute;
       top: 23px;
       transform: translateY(-23px);
@@ -228,12 +228,12 @@
 
     .flickity-prev-next-button.previous {
       opacity: 1;
-      left: 3px;
+      left: 0px;
     }
 
     .flickity-prev-next-button.next {
       opacity: 1;
-      right: -5px;
+      right: 0px;
     }
 
     .flickity-page-dots {

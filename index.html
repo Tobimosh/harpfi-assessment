@@ -85,6 +85,39 @@
     <div class="main-content-wrapper">
       <header class="header">
         <div class="top-nav">
+          <div class="mobile-search-bar open">
+            <div class="search-bar">
+              <img
+                src="assets/icons/arrow-back.svg"
+                alt="Logo"
+                class="close-search"
+              />
+              <input
+                type="text"
+                autocomplete="off"
+                placeholder="Search books, genres, authors..."
+                class="searchInput"
+              />
+              <button class="search-btn" onclick="">
+                <img src="assets/icons/search.svg" alt="Search" />
+              </button>
+              <div class="search-suggestions hidden" id="searchSuggestions">
+                <p>
+                  <span>Built to Last</span
+                  ><span class="grey"> - Jim Collins, Jerry I. Porras...</span>
+                </p>
+                <p>
+                  <span>Four Steps To The Epiphany</span>
+                  <span class="grey"> - James McEnroe </span>
+                </p>
+                <p><span>The Lean Start Up</span> <span>- Eric Reiss</span></p>
+                <p class="grey">
+                  <span>No Excuses</span>
+                  <span class="grey">- Brian Tracy</span>
+                </p>
+              </div>
+            </div>
+          </div>
           <div class="top-nav__left">
             <img
               src="assets/icons/hamburger.svg"
@@ -104,7 +137,7 @@
                 type="text"
                 autocomplete="off"
                 placeholder="Search books, genres, authors..."
-                id="searchInput"
+                class="searchInput"
               />
               <button class="search-btn" onclick="">
                 <img src="assets/icons/search.svg" alt="Search" />
@@ -130,7 +163,7 @@
           <div class="top-nav__right">
             <img
               src="assets/icons/search.svg"
-              class="search"
+              class="mobile-search-button"
               alt="search-icon"
             />
 

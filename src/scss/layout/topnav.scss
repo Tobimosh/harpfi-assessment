@@ -1,3 +1,5 @@
+@use "../shared/mixins" as *;
+
 .top-nav {
   position: fixed;
   top: 0;
@@ -11,6 +13,10 @@
   justify-content: space-between;
   padding: 0 2rem;
   z-index: 100;
+
+  .mobile-search-bar {
+    display: none;
+  }
 
   &__left {
     display: flex;
@@ -43,75 +49,8 @@
     display: flex;
     justify-content: center;
 
-   
-
     .search-bar {
-      position: relative;
-      width: 100%;
-      display: flex;
-      max-width: 540px;
-
-      input {
-        width: 100%;
-        padding: 0rem 0rem 0rem 1.3125rem;
-        font-family: inherit;
-        height: 2.5rem;
-        border: 1px solid #ddd;
-        display: flex;
-        flex: 1;
-        outline: none;
-      }
-
-      .search-btn {
-        position: absolute;
-        right: 0;
-        top: 50%;
-        transform: translateY(-50%);
-        background: #f9f9fb;
-        border: none;
-        width: 40px;
-        height: 100%;
-        border-left: none;
-        border: 1px solid #dddd;
-        cursor: pointer;
-
-        img {
-          width: 20px;
-          height: 20px;
-        }
-      }
-
-      .search-suggestions {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        list-style: none;
-        width: 100%;
-        background: white;
-        border: 1px solid #eeeeee;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-        z-index: 10;
-
-        p {
-          padding: 1rem 1.875rem;
-          list-style: none;
-          margin: 0 auto;
-          font-size: 0.875rem;
-          cursor: pointer;
-
-          &:hover {
-            background-color: #f8f8f8;
-          }
-        }
-        .grey {
-          color: #999999;
-        }
-
-        &.hidden {
-          display: none;
-        }
-      }
+      @include search-bar();
     }
   }
 
@@ -165,9 +104,38 @@
     height: 70px;
     padding: 0 1.875rem;
     border: none;
-    border-bottom: 1px solid #EEEEEE;
-    // box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid #eeeeee;
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
 
+    .mobile-search-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 70px;
+      background-color: white;
+      height: 70px;
+      top: -100%;
+      display: block;
+      box-sizing: border-box;
+      z-index: 999;
+      padding: 0 1.875rem;
+      display: flex;
+      align-items: center;
+      transition: top 0.3s ease-in-out;
+
+      &.open {
+        top: 0;
+      }
+
+      .search-bar {
+        @include search-bar();
+        gap: 1.5rem;
+        input {
+          width: 50%;
+        }
+      }
+    }
 
     &__left {
       gap: 1.8rem;

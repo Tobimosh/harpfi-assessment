@@ -77,8 +77,11 @@ const books = [
 const featuredCarousel = document.getElementById("featured-carousel");
 const recentlyAddedBookList = document.getElementById("recentlyAddedBookList");
 const allBookList = document.getElementById("allBookList");
-const searchInput = document.getElementById("searchInput");
+const searchInputs = document.querySelectorAll(".searchInput");
 const searchSuggestions = document.getElementById("searchSuggestions");
+
+let flickityInstance = null;
+let currentActiveInput = null;
 
 window.onload = function () {
   const rightSvg = document.querySelector(
@@ -106,8 +109,6 @@ window.onload = function () {
     rightArrow.setAttribute("d", rightArrowPath);
   }
 };
-
-let flickityInstance = null;
 
 function generateStars(rating) {
   return Array.from({ length: 5 }, (_, i) =>
@@ -234,8 +235,17 @@ function renderFeaturedBooks(bookArray, searchParams) {
 
 function updateSuggestions(bookArray) {
   const titles = [...new Set(bookArray.map((b) => b.title))];
-  searchSuggestions.innerHTML = titles.map((t) => `<p>${t}</p>`).join("");
-  searchSuggestions.classList.toggle("hidden", titles.length === 0);
+  const authors = [...new Set(bookArray.map((b) => b.author))];
+  const genres = [...new Set(bookArray.map((b) => b.genre))];
+
+  // Combine all suggestions
+  const allSuggestions = [...titles, ...authors, ...genres];
+  const uniqueSuggestions = [...new Set(allSuggestions)];
+
+  searchSuggestions.innerHTML = uniqueSuggestions
+    .map((suggestion) => `<p>${suggestion}</p>`)
+    .join("");
+  searchSuggestions.classList.toggle("hidden", uniqueSuggestions.length === 0);
 }
 
 function filterBooks(query) {
@@ -262,70 +272,126 @@ function filterBooks(query) {
   updateSuggestions(filtered);
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+function syncSearchInputs(activeInput, value) {
+  searchInputs.forEach((input) => {
+    if (input !== activeInput) {
+      input.value = value;
+    }
+  });
+}
+
+function resetToDefaultView() {
   renderBooks(
     recentlyAddedBookList,
     books.filter((b) => b.isRecentlyAdded)
   );
   renderBooks(allBookList, books);
   renderFeaturedBooks(books.filter((b) => b.isFeatured));
+  searchSuggestions.classList.add("hidden");
+}
+
+// Initialize the app
+document.addEventListener("DOMContentLoaded", () => {
+  resetToDefaultView();
+
+  // Add event listeners to all search inputs
+  searchInputs.forEach((searchInput) => {
+    // Input event for real-time filtering
+    searchInput.addEventListener("input", (e) => {
+      const query = e.target.value.trim();
+      currentActiveInput = e.target;
+
+      // Sync all search inputs
+      syncSearchInputs(e.target, e.target.value);
+
+      if (query) {
+        filterBooks(query);
+      } else {
+        resetToDefaultView();
+      }
+    });
+
+    // Focus event to show suggestions
+    searchInput.addEventListener("focus", (e) => {
+      currentActiveInput = e.target;
+      const query = e.target.value.trim();
+      if (query) {
+        filterBooks(query);
+      } else {
+        // Show all suggestions when focusing empty input
+        updateSuggestions(books);
+      }
+      searchSuggestions.classList.remove("hidden");
+    });
+
+    // Blur event to hide suggestions
+    searchInput.addEventListener("blur", () => {
+      setTimeout(() => {
+        searchSuggestions.classList.add("hidden");
+      }, 200);
+    });
+  });
 });
 
-searchInput.addEventListener("input", (e) => {
-  const query = e.target.value.trim();
-  if (query) {
-    filterBooks(query);
-  } else {
-    renderBooks(
-      recentlyAddedBookList,
-      books.filter((b) => b.isRecentlyAdded)
-    );
-    renderBooks(allBookList, books);
-    renderFeaturedBooks(books.filter((b) => b.isFeatured));
-    searchSuggestions.classList.add("hidden");
-  }
-});
-
-searchInput.addEventListener("focus", () => {
-  const query = searchInput.value.trim();
-  if (query) filterBooks(query);
-  searchSuggestions.classList.remove("hidden");
-});
-
-searchInput.addEventListener("blur", () => {
-  setTimeout(() => {
-    searchSuggestions.classList.add("hidden");
-  }, 200);
-});
-
+// Handle suggestion clicks
 searchSuggestions.addEventListener("click", (e) => {
   if (e.target.tagName === "P") {
-    const title = e.target.innerText.trim();
-    searchInput.value = title;
-    filterBooks(title);
+    const selectedValue = e.target.innerText.trim();
+
+    // Update all search inputs with the selected value
+    searchInputs.forEach((input) => {
+      input.value = selectedValue;
+    });
+
+    // Filter books with the selected value
+    filterBooks(selectedValue);
     searchSuggestions.classList.add("hidden");
+
+    // Focus back to the active input if it exists
+    if (currentActiveInput) {
+      currentActiveInput.focus();
+    }
   }
 });
 
-//Logic for opening and closing modal
-
-const overlay = document.querySelector(".overlay");
-
+// Sidebar functionality
 document.addEventListener("DOMContentLoaded", () => {
   const sidebar = document.querySelector(".sidebar");
   const openBtn = document.querySelector(".hamburger");
   const closeBtn = document.querySelector(".close-drawer");
+  const overlay = document.querySelector(".overlay");
 
   openBtn?.addEventListener("click", () => {
     sidebar?.classList.add("open");
+    overlay?.classList.remove("hidden");
   });
 
   closeBtn?.addEventListener("click", () => {
     sidebar?.classList.remove("open");
+    overlay?.classList.add("hidden");
   });
-  
+
   overlay?.addEventListener("click", () => {
     sidebar?.classList.remove("open");
     overlay?.classList.add("hidden");
+  });
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const mobileSearchBar = document.querySelector(".mobile-search-bar");
+  const mobileSearchBtn = document.querySelector(".mobile-search-button");
+  const closeSearchBar = document.querySelector(".close-search");
+  const overlay = document.querySelector(".overlay");
+
+  mobileSearchBtn?.addEventListener("click", () => {
+    mobileSearchBar?.classList.add("open");
+  });
+
+  closeSearchBar?.addEventListener("click", () => {
+    mobileSearchBar?.classList.remove("open");
+  });
+
+  overlay?.addEventListener("click", () => {
+    mobileSearchBar?.classList.remove("open");
   });
 });
