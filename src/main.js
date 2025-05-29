@@ -186,9 +186,19 @@ function renderFeaturedBooks(bookArray, searchParams) {
     cell.className = "carousel-cell";
     cell.innerHTML = `
       <img src="/assets/${book.coverUrl}" alt="${book.title}">
+      <div class="open-details">
+        <div class="circle">
+          <div class="circle__dot"></div>
+          <div class="circle__dot"></div>
+          <div class="circle__dot"></div>
+        </div>
+      </div>
+
       <div class="shadow-box"></div>
       <div class="overlay">
+        <img src="/assets/icons/close-details.svg" alt="close-details-icon" class="close-details"/> 
         <div class="overlay__content">
+
           <p class="status ${
             book.status === "Available" ? "available" : "borrowed"
           }">${book.status}</p>
@@ -216,8 +226,64 @@ function renderFeaturedBooks(bookArray, searchParams) {
             </div>
           </div>
         </div>
-      </div>`;
+      </div>
+
+
+
+      <div class="mobile-overlay">
+        <img src="/assets/icons/close-details.svg" alt="close-details-icon" class="close-details"/> 
+        <div class="mobile-overlay__content">
+
+          <p class="status ${
+            book.status === "Available" ? "available" : "borrowed"
+          }">${book.status}</p>
+          <div class="title">${book.title}</div>
+          <div class="author">${book.author}</div>
+          <div class="year">${book.year}</div>
+          <div class="info-section">
+            <strong>Genre:</strong> ${book.genre} <br/>
+            <strong class="labels">Labels:</strong> ${book.labels || "N/A"}
+          </div>
+          <div class="rating-container">
+            <div class="rating">
+              <div><strong> Ratings:</strong> ${book.rating}</div>
+              <span class="stars">${generateStars(book.rating)}</span>
+            </div>
+            <div class="stats">
+              <div class="readers">
+                <img src="/assets/icons/group-mobile.svg" alt="group-icon"/> 
+                <span>${book.readers}</span>
+              </div>
+              <div class="likes">
+                <img src="/assets/icons/heart-mobile.svg" alt="heart-icon"/> 
+                <span>${book.likes}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      `;
     featuredCarousel.appendChild(cell);
+
+    const overlays = cell.querySelectorAll(".overlay, .mobile-overlay");
+    const openDetails = cell.querySelector(".open-details");
+    const closeButtons = cell.querySelectorAll(".close-details");
+
+    openDetails.addEventListener("click", () => {
+      document
+        .querySelectorAll(".overlay.active, .mobile-overlay.active")
+        .forEach((activeOverlay) => {
+          activeOverlay.classList.remove("active");
+        });
+
+      overlays.forEach((overlay) => overlay.classList.add("active"));
+    });
+
+    closeButtons.forEach((closeBtn) => {
+      closeBtn.addEventListener("click", () => {
+        overlays.forEach((overlay) => overlay.classList.remove("active"));
+      });
+    });
   });
 
   setTimeout(() => {
@@ -230,6 +296,8 @@ function renderFeaturedBooks(bookArray, searchParams) {
       cellAlign: "left",
       contain: true,
     });
+
+    attachCarouselEventListeners();
   }, 50);
 }
 
@@ -238,7 +306,6 @@ function updateSuggestions(bookArray) {
   const authors = [...new Set(bookArray.map((b) => b.author))];
   const genres = [...new Set(bookArray.map((b) => b.genre))];
 
-  // Combine all suggestions
   const allSuggestions = [...titles, ...authors, ...genres];
   const uniqueSuggestions = [...new Set(allSuggestions)];
 
@@ -290,18 +357,14 @@ function resetToDefaultView() {
   searchSuggestions.classList.add("hidden");
 }
 
-// Initialize the app
 document.addEventListener("DOMContentLoaded", () => {
   resetToDefaultView();
 
-  // Add event listeners to all search inputs
   searchInputs.forEach((searchInput) => {
-    // Input event for real-time filtering
     searchInput.addEventListener("input", (e) => {
       const query = e.target.value.trim();
       currentActiveInput = e.target;
 
-      // Sync all search inputs
       syncSearchInputs(e.target, e.target.value);
 
       if (query) {
@@ -311,20 +374,17 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    // Focus event to show suggestions
     searchInput.addEventListener("focus", (e) => {
       currentActiveInput = e.target;
       const query = e.target.value.trim();
       if (query) {
         filterBooks(query);
       } else {
-        // Show all suggestions when focusing empty input
         updateSuggestions(books);
       }
       searchSuggestions.classList.remove("hidden");
     });
 
-    // Blur event to hide suggestions
     searchInput.addEventListener("blur", () => {
       setTimeout(() => {
         searchSuggestions.classList.add("hidden");
@@ -333,28 +393,23 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-// Handle suggestion clicks
 searchSuggestions.addEventListener("click", (e) => {
   if (e.target.tagName === "P") {
     const selectedValue = e.target.innerText.trim();
 
-    // Update all search inputs with the selected value
     searchInputs.forEach((input) => {
       input.value = selectedValue;
     });
 
-    // Filter books with the selected value
     filterBooks(selectedValue);
     searchSuggestions.classList.add("hidden");
 
-    // Focus back to the active input if it exists
     if (currentActiveInput) {
       currentActiveInput.focus();
     }
   }
 });
 
-// Sidebar functionality
 document.addEventListener("DOMContentLoaded", () => {
   const sidebar = document.querySelector(".sidebar");
   const openBtn = document.querySelector(".hamburger");

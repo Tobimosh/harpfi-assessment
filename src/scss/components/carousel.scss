@@ -3,6 +3,7 @@
   width: 100%;
   margin-bottom: 4.5rem;
   position: relative;
+  overflow: hidden;
 
   h2 {
     margin: 0;
@@ -22,6 +23,7 @@
 
   .carousel {
     position: relative;
+    overflow: visible;
 
     .is_draggable {
       user-select: none;
@@ -31,7 +33,6 @@
       width: 220px;
       height: 330px;
       margin-right: 20px;
-      // overflow: ;
       outline: none;
       display: inline-block;
       backdrop-filter: blur(10px);
@@ -40,9 +41,13 @@
       overflow: visible !important;
       z-index: 50;
       position: relative;
-      // box-shadow: 0 24px 8px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 
       transition: all 0.3s ease;
+
+      .open-details {
+        display: none;
+      }
 
       .carousel-cell img {
         width: 100%;
@@ -61,6 +66,10 @@
         height: 100%;
         object-fit: cover;
         display: block;
+      }
+
+      .mobile-overlay {
+        display: none;
       }
 
       .overlay {
@@ -84,6 +93,10 @@
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
+
+        .close-details {
+          display: none;
+        }
 
         &__content {
           position: absolute;
@@ -161,7 +174,7 @@
                 height: 15px;
 
                 &.filled {
-                  color: #fbbf24;
+                  color: #eba430;
                 }
 
                 &.empty {
@@ -200,7 +213,6 @@
       top: 23px;
       transform: translateY(-23px);
       border: none;
-      border-right: 1.2px solid #fff;
       width: 2.5rem;
       height: 405px;
       border-radius: 0%;
@@ -229,11 +241,13 @@
     .flickity-prev-next-button.previous {
       opacity: 1;
       left: 0px;
+      border-right: 1.2px solid #fff;
     }
 
     .flickity-prev-next-button.next {
       opacity: 1;
       right: 0px;
+      border-left: 1.2px solid #fff;
     }
 
     .flickity-page-dots {
@@ -248,7 +262,7 @@
         width: 8px;
         height: 8px;
         margin: 0 4px;
-        background: #DDDDDD;
+        background: #dddddd;
         border-radius: 50%;
         transition: background-color 0.3s ease;
 
@@ -265,27 +279,205 @@
     padding: 1.25rem 0 1.875rem 0;
     margin-bottom: 3rem;
 
-    .carousel .carousel-cell {
-      width: 140px;
-      height: 210px;
-      margin-right: 5px;
-    }
+    .carousel {
+      .carousel-cell {
+        width: 140px;
+        height: 210px;
+        margin-right: 5px;
+        cursor: default;
 
-    .carousel .flickity-button {
-      width: 1.875rem;
-      height: 271px;
-      background-color: black;
-    }
+        .open-details {
+          position: absolute;
+          top: 15px;
+          right: 15px;
+          display: block;
 
-    .carousel .flickity-prev-next-button.previous {
-      left: 0;
-    }
-    .carousel .flickity-prev-next-button.next {
-      right: 0;
-    }
+          .circle {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 3px;
+            width: 27px;
+            height: 27px;
+            background-color: #fff;
+            box-shadow: 0 0.5px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: inset;
+            border-radius: 50%;
 
-    .carousel .flickity-page-dots{
-      bottom: -30px;
+            &__dot {
+              width: 3px;
+              height: 3px;
+              background-color: #999999;
+              border-radius: 50%;
+            }
+          }
+        }
+        .overlay {
+          display: none;
+        }
+
+        .mobile-overlay {
+          display: block;
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: linear-gradient(
+            to bottom,
+            rgba(0, 0, 0, 0.65) 0%,
+            rgba(0, 0, 0, 0.75) 30%,
+            rgba(0, 0, 0, 0.95) 57%,
+            rgba(0, 0, 0, 1) 100%
+          );
+          backdrop-filter: blur(3.75px);
+          color: #fff;
+          opacity: 0;
+          transition: opacity 0.3s ease;
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-start;
+
+          padding: 0;
+          width: 100%;
+          pointer-events: none;
+
+          &.active {
+            opacity: 1;
+            pointer-events: auto;
+          }
+
+          &__content {
+            left: 0.94rem;
+            right: 0.94rem;
+            bottom: 0.94rem;
+            top: 2rem;
+            position: absolute;
+          }
+
+          .close-details {
+            position: absolute;
+            right: 15px;
+            display: block;
+            top: 15px;
+            width: 12px;
+            height: 12px;
+            z-index: 500;
+          }
+
+          .status {
+            margin-bottom: 0.7rem;
+            margin-top: 0;
+            font-size: 0.75rem;
+
+            &.available {
+              color: #4ade80;
+            }
+
+            &.borrowed {
+              color: #f87171;
+            }
+          }
+          .title {
+            margin-bottom: 0.2rem;
+            font-size: 0.875rem;
+            font-weight: 700;
+          }
+          .author {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            opacity: 0.9;
+            font-size: 0.75rem;
+          }
+          .year {
+            margin-bottom: 0.5rem;
+            font-size: 0.75rem;
+          }
+
+          .info-section {
+            display: none;
+          }
+
+          .rating-container {
+            flex-direction: column;
+            align-items: start;
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.1rem;
+
+            .rating {
+              border: none;
+              padding-right: 0;
+              display: flex;
+              flex-direction: column;
+              gap: 3px;
+              font-weight: 400;
+              font-size: 0.75rem;
+              // margin-bottom: 0.25rem;
+
+
+              strong {
+                font-weight: 400;
+              }
+
+              .stars {
+                display: flex;
+                gap: 1px;
+
+                .star {
+                  width: 15px;
+                  height: 15px;
+
+                  &.filled {
+                    color: #eba430;
+                  }
+
+                  &.empty {
+                    color: #333333;
+                  }
+                }
+              }
+            }
+
+            .stats {
+              display: flex;
+              gap: 0.5rem;
+              font-size: 0.75rem;
+              align-items: center;
+
+              div {
+                display: flex;
+                gap: 0.25rem;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+              }
+              img {
+                width: 13px;
+                height: 11px;
+              }
+            }
+          }
+        }
+      }
+
+      .flickity-button {
+        width: 1.875rem;
+        height: 271px;
+      }
+
+      .flickity-prev-next-button.previous {
+        left: 0;
+      }
+      .flickity-prev-next-button.next {
+        right: 0;
+      }
+
+      .flickity-page-dots {
+        bottom: -30px;
+      }
     }
 
     .not-found {

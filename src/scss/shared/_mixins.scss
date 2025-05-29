@@ -67,7 +67,12 @@
   }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
+  .search-bar {
+    max-width: 350px;
+  }
+}
+@media (min-width: 1280px) {
   .search-bar {
     max-width: 540px;
   }
