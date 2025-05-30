@@ -186,6 +186,7 @@ function renderFeaturedBooks(bookArray, searchParams) {
     cell.className = "carousel-cell";
     cell.innerHTML = `
       <img src="/assets/${book.coverUrl}" alt="${book.title}">
+
       <div class="open-details">
         <div class="circle">
           <div class="circle__dot"></div>

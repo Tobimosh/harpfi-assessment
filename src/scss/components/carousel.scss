@@ -3,7 +3,7 @@
   width: 100%;
   margin-bottom: 4.5rem;
   position: relative;
-  overflow: hidden;
+  overflow-y: visible;
 
   h2 {
     margin: 0;
@@ -41,7 +41,7 @@
       overflow: visible !important;
       z-index: 50;
       position: relative;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 24px 24px rgba(0, 0, 0, 0.6);
 
       transition: all 0.3s ease;
 
@@ -49,16 +49,22 @@
         display: none;
       }
 
+      .space-bottom {
+        height: 40px;
+        width: 100%;
+      }
+
       .carousel-cell img {
         width: 100%;
         height: 100%;
         display: block;
         object-fit: cover;
+        overflow: visible;
       }
 
       &:hover {
         transform: translateY(-4px);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        // box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
       }
 
       img {
@@ -206,6 +212,20 @@
       }
     }
 
+    .flickity-viewport {
+      overflow-x: scroll;
+      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none;
+      overflow-y: visible;
+      // overflow-wrap: anywhere;
+
+  
+    }
+
+    .flickity-viewport::-webkit-scrollbar {
+      display: none;
+    }
+
     .flickity-button {
       background: rgba(255, 255, 255, 0.85);
       // background-color: black;
@@ -285,6 +305,7 @@
         height: 210px;
         margin-right: 5px;
         cursor: default;
+        box-shadow: 0 24px 24px rgba(0, 0, 0, 0.2);
 
         .open-details {
           position: absolute;
@@ -416,7 +437,6 @@
               font-weight: 400;
               font-size: 0.75rem;
               // margin-bottom: 0.25rem;
-
 
               strong {
                 font-weight: 400;
