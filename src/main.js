@@ -287,19 +287,19 @@ function renderFeaturedBooks(bookArray, searchParams) {
     });
   });
 
-  // setTimeout(() => {
-  //   flickityInstance = new Flickity(featuredCarousel, {
-  //     wrapAround: true,
-  //     pageDots: true,
-  //     prevNextButtons: true,
-  //     draggable: true,
-  //     freeScroll: false,
-  //     cellAlign: "left",
-  //     contain: true,
-  //   });
+  setTimeout(() => {
+    flickityInstance = new Flickity(featuredCarousel, {
+      wrapAround: true,
+      pageDots: true,
+      prevNextButtons: true,
+      draggable: true,
+      freeScroll: false,
+      cellAlign: "left",
+      contain: true,
+    });
 
-  //   attachCarouselEventListeners();
-  // }, 50);
+    attachCarouselEventListeners();
+  }, 50);
 }
 
 function updateSuggestions(bookArray) {
