@@ -3,7 +3,6 @@
   width: 100%;
   margin-bottom: 4.5rem;
   position: relative;
-  overflow-y: visible;
 
   h2 {
     margin: 0;
@@ -23,10 +22,21 @@
 
   .carousel {
     position: relative;
-    overflow: visible;
+    z-index: 120;
+    // overflow: visible !important;
 
     .is_draggable {
       user-select: none;
+    }
+
+    .flickity-viewport {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+      overflow: visible !important;
+    }
+
+    .flickity-viewport::-webkit-scrollbar {
+      display: none;
     }
 
     .carousel-cell {
@@ -39,9 +49,9 @@
       -webkit-backdrop-filter: blur(10px);
       cursor: pointer;
       overflow: visible !important;
-      z-index: 50;
+      z-index: 100;
       position: relative;
-      box-shadow: 0 24px 24px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 15px 24px rgba(0, 0, 0, 0.6);
 
       transition: all 0.3s ease;
 
@@ -210,20 +220,6 @@
       &:hover .overlay {
         opacity: 1;
       }
-    }
-
-    .flickity-viewport {
-      overflow-x: scroll;
-      -ms-overflow-style: none; /* IE and Edge */
-      scrollbar-width: none;
-      overflow-y: visible;
-      // overflow-wrap: anywhere;
-
-  
-    }
-
-    .flickity-viewport::-webkit-scrollbar {
-      display: none;
     }
 
     .flickity-button {
@@ -407,7 +403,7 @@
           }
           .author {
             text-overflow: ellipsis;
-            overflow: hidden;
+            overflow: visible;
             white-space: nowrap;
             opacity: 0.9;
             font-size: 0.75rem;
