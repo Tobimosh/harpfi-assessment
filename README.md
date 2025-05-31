@@ -1,6 +1,6 @@
 # 📚 Korapay Book Club Dashboard
 
-This is a responsive dashboard implementation for the fictional Korapay Book Club application. Built as part of a frontend technical assessment, the interface is designed to replicate the provided Figma mockups using HTML, SCSS, and vanilla JavaScript, with zero frontend frameworks.
+This is a responsive dashboard implementation for the fictional **Korapay Book Club** application. It replicates the provided Figma design using **HTML**, **SCSS (Sass)**, and **vanilla JavaScript**, and is built and served using **Vite** for a modern frontend development experience.
 
 ---
 
@@ -8,14 +8,16 @@ This is a responsive dashboard implementation for the fictional Korapay Book Clu
 
 ```bash
 korapay-dashboard/
-├── index.html
 ├── public/
-        assets/
-    │   ├── css/
-    │   ├── js/
-    │   ├── scss/
-    │   └── images/
-├── lib/        # External libraries (e.g., Flickity)
+│   └── assets/           # Static assets like images and icons
+├── src/
+│   ├── index.html        # Main HTML entry point
+│   ├── main.js           # JavaScript entry point
+│   └── scss/
+│       ├── components/   # Book cards, carousels, overlay styles
+│       ├── layout/       # Topnav, sidebar, and layout wrappers
+│       └── shared/       # Mixins and global styles
+├── package.json
 ├── README.md
 ```
 
@@ -23,76 +25,77 @@ korapay-dashboard/
 
 ## 🚀 Features Implemented
 
-- ✅ Responsive layout for desktop and mobile views.
-- ✅ Sticky navigation bar with search functionality.
-- ✅ Autocomplete search input with dynamic filtering.
-- ✅ Sidebar that collapses into a mobile drawer with hamburger toggle.
-- ✅ Featured Books Carousel with:
-  - Scroll, swipe, and arrow controls.
-  - Overlay details on hover (desktop) or ellipsis click (mobile).
-  - Indicator dots.
-- ✅ Book Grids/Lists that adapt between grid and list views depending on screen size.
-- ✅ Smooth transitions and hover states as shown in the Figma.
-- ✅ Search filter behavior replaces book sections dynamically.
+- ✅ Fully responsive layout across desktop and mobile.
+- ✅ Sticky navigation bar with toggleable search bar (mobile) and always-visible input (desktop).
+- ✅ Smart, responsive autocomplete search that filters by **book title**, **author**, or **genre**.
+- ✅ Sidebar navigation with collapse/drawer behavior on mobile.
+- ✅ Featured books carousel with:
+  - Custom-built scrollable and swipeable carousel layout (not using Flickity).
+  - Overlay details shown on hover (desktop) or via ellipsis (mobile).
+  - Navigation arrows and indicator dots.
+- ✅ Book sections (`All Books`, `Recently Added`) with hover and tap overlays.
+- ✅ Dynamic filtering that updates all book sections based on search input.
 
 ---
 
-## 🧑‍💻 How to Run the Project
+## ⚙️ How to Run the Project
 
-### 1. Clone the Repository
+> Requires [Node.js](https://nodejs.org/) installed.
+
+### 1. Install dependencies
 
 ```bash
-git clone <your-repo-url>
-cd korapay-dashboard
+npm install
 ```
 
-### 2. Compile SCSS to CSS
-
-> You must compile the SCSS files before running the project. You can use any method you're comfortable with (Node-sass, Dart Sass, VS Code SCSS plugins, etc.).
-
-**Using Dart Sass (CLI):**
+### 2. Run development server
 
 ```bash
-sass assets/scss:assets/css
+npm run dev
 ```
 
-> Compiled output goes to `assets/css/`.
+The project will start on `http://localhost:5173/` or another available port.
 
-### 3. Open in Browser
-
-Open `index.html` directly in your browser. No server setup is required.
+> Vite handles SCSS processing and hot module replacement.
 
 ---
 
-## ⚙️ Assumptions Made
+## 💡 Why Sass?
 
-- Book search uses hardcoded data for autocomplete and filtering (as allowed).
-- All overlay data is static and locally defined, as no API integration was required.
-- Exact colors, shadows, and spacing were replicated as closely as possible using Figma's inspect tools.
+Sass was used to take advantage of modular class-based styling. It improves code organization with reusable mixins and cleaner component-specific styles. The project uses:
+
+- Component-based SCSS (e.g., `book-card.scss`, `carousel.scss`)
+- Layout-specific SCSS (e.g., `sidebar.scss`, `topnav.scss`)
+- Shared mixins for consistent styling patterns
 
 ---
 
-## ❗Known Issues / Limitations
+## ❗ Assumptions / Notes
 
-- No backend or state management is implemented (not required).
-- Some edge cases (e.g., empty search queries or multiple overlays open) have been simplified for clarity.
+- Carousel was initially implemented with Flickity but replaced with a custom-built version due to layout limitations.
+- Search functionality works dynamically and contextually across:
+  - Featured Books
+  - All Books
+  - Recently Added
+- Search suggestions update in real time based on **book name**, **author**, or **genre**.
+- All content is static for assessment purposes — no external APIs used.
 
 ---
 
 ## 🔬 Possible Enhancements
 
-- [ ] Add keyboard navigation for autocomplete.
-- [ ] Improve focus styles for accessibility.
-- [ ] Integrate real book data from an API or JSON feed.
-- [ ] Write unit tests for key UI interactions.
+- [ ] Add keyboard navigation support for the search dropdown.
+- [ ] Implement ARIA roles for accessibility compliance.
+- [ ] Add basic tests using Vitest for UI logic and filter functions.
+- [ ] Load book data from JSON or API instead of inline.
 
 ---
 
 ## 💬 Feedback on the Assessment
 
-- The Figma prototype was clear and interactive, which made implementation smooth.
-- A clear spec like this helps focus on both functionality and polish.
-- Consider allowing access to downloadable assets (e.g., logos, icons) instead of requiring manual inspection.
+- Using Figma's interactive prototype helped visualize responsive behavior effectively.
+- Providing downloadable assets (e.g., logos, icons) would streamline setup.
+- Allowing flexibility in carousel implementation (beyond Flickity) worked out better in practice.
 
 ---
 
