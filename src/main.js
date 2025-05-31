@@ -1,5 +1,5 @@
 import "./scss/index.scss";
-import "flickity/css/flickity.css";
+// import "flickity/css/flickity.css";
 
 const books = [
   {
@@ -168,6 +168,13 @@ function renderBooks(
   });
 }
 
+const carouselWrapper = document.createElement("div");
+carouselWrapper.className = "carousel-wrapper";
+featuredCarousel.parentNode.insertBefore(carouselWrapper, featuredCarousel);
+
+
+carouselWrapper.appendChild(featuredCarousel);
+
 function renderFeaturedBooks(bookArray, searchParams) {
   if (flickityInstance) {
     flickityInstance.destroy();
@@ -181,89 +188,111 @@ function renderFeaturedBooks(bookArray, searchParams) {
     return;
   }
 
+  let currentIndex = 0;
+  let cardWidth = 0;
+  let totalCards = bookArray.length;
+
   bookArray.forEach((book) => {
     const cell = document.createElement("div");
     cell.className = "carousel-cell";
     cell.innerHTML = `
-      <img src="/assets/${book.coverUrl}" alt="${book.title}">
-
-      <div class="open-details">
-        <div class="circle">
-          <div class="circle__dot"></div>
-          <div class="circle__dot"></div>
-          <div class="circle__dot"></div>
-        </div>
-      </div>
-
-      <div class="shadow-box"></div>
-      <div class="overlay">
-        <img src="/assets/icons/close-details.svg" alt="close-details-icon" class="close-details"/> 
-        <div class="overlay__content">
-
-          <p class="status ${
-            book.status === "Available" ? "available" : "borrowed"
-          }">${book.status}</p>
-          <div class="title">${book.title}</div>
-          <div class="author">${book.author}</div>
-          <div class="year">${book.year}</div>
-          <div class="info-section">
-            <strong>Genre:</strong> ${book.genre} <br/>
-            <strong class="labels">Labels:</strong> ${book.labels || "N/A"}
-          </div>
-          <div class="rating-container">
-            <div class="rating">
-              <div><strong> Ratings:</strong> ${book.rating}</div>
-              <span class="stars">${generateStars(book.rating)}</span>
-            </div>
-            <div class="stats">
-              <div class="readers">
-                <img src="/assets/icons/group-grey.svg" alt="group-icon"/> 
-                <span>${book.readers}</span>
-              </div>
-              <div class="likes">
-                <img src="/assets/icons/heart-grey.svg" alt="heart-icon"/> 
-                <span>${book.likes}</span>
+            <img
+              src="/assets/${book.coverUrl}"
+              alt="${book.title}"
+            />
+            <div class="open-details">
+              <div class="circle">
+                <div class="circle__dot"></div>
+                <div class="circle__dot"></div>
+                <div class="circle__dot"></div>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-
-
-
-      <div class="mobile-overlay">
-        <img src="/assets/icons/close-details.svg" alt="close-details-icon" class="close-details"/> 
-        <div class="mobile-overlay__content">
-
-          <p class="status ${
-            book.status === "Available" ? "available" : "borrowed"
-          }">${book.status}</p>
-          <div class="title">${book.title}</div>
-          <div class="author">${book.author}</div>
-          <div class="year">${book.year}</div>
-          <div class="info-section">
-            <strong>Genre:</strong> ${book.genre} <br/>
-            <strong class="labels">Labels:</strong> ${book.labels || "N/A"}
-          </div>
-          <div class="rating-container">
-            <div class="rating">
-              <div><strong> Ratings:</strong> ${book.rating}</div>
-              <span class="stars">${generateStars(book.rating)}</span>
-            </div>
-            <div class="stats">
-              <div class="readers">
-                <img src="/assets/icons/group-mobile.svg" alt="group-icon"/> 
-                <span>${book.readers}</span>
+            <div class="shadow-box"></div>
+            <div class="overlay">
+              <img
+                src="/assets/icons/close-details.svg"
+                alt="close-details-icon"
+                class="close-details"
+              />
+              <div class="overlay__content">
+                   <p class="status ${
+                     book.status === "Available" ? "available" : "borrowed"
+                   }">${book.status}</p>
+                <div class="title">${book.title}</div>
+                <div class="author">${book.author}</div>
+                <div class="year">${book.year}</div>
+                <div class="info-section">
+                  <strong>Genre:</strong> ${book.genre} <br />
+                  <strong class="labels">Labels:</strong> ${
+                    book.labels || "N/A"
+                  }
+                </div>
+                <div class="rating-container">
+                  <div class="rating">
+                    <div><strong> Ratings:</strong> ${book.rating}</div>
+                    <span class="stars">${generateStars(book.rating)}</span>
+                  </div>
+                  <div class="stats">
+                    <div class="readers">
+                      <img
+                        src="/assets/icons/group-grey.svg"
+                        alt="group-icon"
+                      />
+                      <span>${book.readers}</span>
+                    </div>
+                    <div class="likes">
+                      <img
+                        src="/assets/icons/heart-grey.svg"
+                        alt="heart-icon"
+                      />
+                      <span>${book.likes}</span>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div class="likes">
-                <img src="/assets/icons/heart-mobile.svg" alt="heart-icon"/> 
-                <span>${book.likes}</span>
+            </div>
+            <div class="mobile-overlay">
+              <img
+                src="/assets/icons/close-details.svg"
+                alt="close-details-icon"
+                class="close-details"
+              />
+              <div class="mobile-overlay__content">
+                <p class="status">${book.status}</p>
+                <div class="title">${book.title}</div>
+                <div class="author">${book.author}</div>
+                <div class="year">${book.year}</div>
+                <div class="info-section">
+                  <strong>Genre:</strong> ${book.genre} <br />
+                  <strong class="labels">Labels:</strong> ${
+                    book.labels || "N/A"
+                  }
+                </div>
+                <div class="rating-container">
+                  <div class="rating">
+                    <div><strong> Ratings:</strong> ${book.rating}</div>
+                    <span class="stars">${generateStars(book.rating)}</span>
+                  </div>
+                  <div class="stats">
+                    <div class="readers">
+                      <img
+                        src="/assets/icons/group-mobile.svg"
+                        alt="group-icon"
+                      />
+                      <span>${book.readers}</span>
+                    </div>
+                    <div class="likes">
+                      <img
+                        src="/assets/icons/heart-mobile.svg"
+                        alt="heart-icon"
+                      />
+                      <span>${book.likes}</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-      `;
+    `;
     featuredCarousel.appendChild(cell);
 
     const overlays = cell.querySelectorAll(".overlay, .mobile-overlay");
@@ -287,19 +316,74 @@ function renderFeaturedBooks(bookArray, searchParams) {
     });
   });
 
-  setTimeout(() => {
-    flickityInstance = new Flickity(featuredCarousel, {
-      wrapAround: true,
-      pageDots: true,
-      prevNextButtons: true,
-      draggable: true,
-      freeScroll: false,
-      cellAlign: "left",
-      contain: true,
+  const prevButton = document.createElement("div");
+  prevButton.className = "flickity-button flickity-prev-next-button previous";
+  prevButton.innerHTML = `
+  <img class="flickity-button-icon prev" src="/assets/icons/prev.svg" alt="Previous" />`;
+  carouselWrapper.appendChild(prevButton);
+
+  const nextButton = document.createElement("div");
+  nextButton.className = "flickity-button flickity-prev-next-button next";
+  nextButton.innerHTML = `
+          <img class="flickity-button-icon next" src="/assets/icons/prev.svg" alt="Next" />`;
+  carouselWrapper.appendChild(nextButton);
+
+  const firstCard = featuredCarousel.querySelector(".carousel-cell");
+  if (firstCard) {
+    cardWidth =
+      firstCard.offsetWidth +
+      parseInt(getComputedStyle(firstCard).marginRight || 0);
+  }
+
+
+
+  const carouselDots = document.createElement("div");
+  carouselDots.className = "flickity-page-dots";
+
+  for (let i = 0; i < totalCards; i++) {
+    const dot = document.createElement("div");
+    dot.className = "dot";
+    if (i === 0) dot.classList.add("is-selected"); 
+    carouselDots.appendChild(dot);
+  }
+  carouselWrapper.appendChild(carouselDots);
+
+  function updateCarousel() {
+    const scrollAmount = currentIndex * cardWidth;
+    featuredCarousel.style.transform = `translateX(-${scrollAmount}px)`;
+
+    const dots = carouselDots.querySelectorAll(".dot");
+    dots.forEach((dot, index) => {
+      dot.classList.toggle("is-selected", index === currentIndex);
     });
 
-    attachCarouselEventListeners();
-  }, 50);
+    prevButton.style.opacity = currentIndex === 0 ? "0.5" : "1";
+    nextButton.style.opacity = currentIndex === totalCards - 1 ? "0.5" : "1";
+  }
+
+  prevButton.addEventListener("click", () => {
+    if (currentIndex > 0) {
+      currentIndex--;
+      updateCarousel();
+    }
+  });
+
+  nextButton.addEventListener("click", () => {
+    if (currentIndex < totalCards - 1) {
+      currentIndex++;
+      updateCarousel();
+    }
+  });
+
+  const dots = carouselDots.querySelectorAll(".dot");
+  dots.forEach((dot, index) => {
+    dot.addEventListener("click", () => {
+      currentIndex = index;
+      updateCarousel();
+    });
+  });
+
+  updateCarousel();
 }
 
 function updateSuggestions(bookArray) {

@@ -134,7 +134,6 @@
 
       .search-bar {
         @include search-bar();
-        // position:  relative !important;
         gap: 1.5rem;
         input {
           width: 50%;
