@@ -4,6 +4,10 @@
   margin-bottom: 4.5rem;
   position: relative;
 
+  &.empty {
+    margin-bottom: 0px;
+  }
+
   h2 {
     margin: 0;
     font-size: 0.875rem;
@@ -114,6 +118,11 @@
     scrollbar-width: none;
     overflow-y: hidden;
 
+
+    &.empty {
+      height: auto;
+    }
+
     .is_draggable {
       user-select: none;
     }
@@ -130,7 +139,7 @@
       overflow: visible !important;
       z-index: 50;
       position: relative;
-      box-shadow: 0 15px 24px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.6);
 
       transition: all 0.3s ease;
 
@@ -149,11 +158,6 @@
         display: block;
         object-fit: cover;
         overflow: visible;
-      }
-
-      &:hover {
-        transform: translateY(-4px);
-        // box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
       }
 
       img {

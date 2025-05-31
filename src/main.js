@@ -1,77 +1,12 @@
 import "./scss/index.scss";
+import {
+  generateStars,
+  renderBookCard,
+  renderBooks,
+  syncSearchInputs,
+} from "./utils";
 
-const books = [
-  {
-    title: "The Effective Engineer",
-    author: "Edmond Lau",
-    year: 2009,
-    genre: "Motivational",
-    rating: 4,
-    status: "Available",
-    readers: 31,
-    likes: 29,
-    coverUrl: "images/effective-engineer.png",
-    labels: "Productivity, Career",
-    isFeatured: true,
-    isRecentlyAdded: true,
-  },
-  {
-    title: "The Lean Startup",
-    author: "Eric Reis",
-    year: 2005,
-    genre: "Business",
-    rating: 4,
-    status: "Available",
-    readers: 31,
-    likes: 29,
-    coverUrl: "images/lean-startup.png",
-    labels: "Entrepreneurship, Innovation",
-    isFeatured: true,
-    isRecentlyAdded: true,
-  },
-  {
-    title: "Effective Python",
-    author: "Diomidis Spinellis",
-    year: 2010,
-    genre: "Inspirational",
-    rating: 4,
-    status: "Available",
-    readers: 31,
-    likes: 29,
-    coverUrl: "images/effective-python.png",
-    labels: "Programming, Tips",
-    isFeatured: true,
-    isRecentlyAdded: true,
-  },
-  {
-    title: "Big Magic",
-    author: "Elizabeth Gilbert",
-    year: 2014,
-    genre: "Spiritual",
-    rating: 4,
-    status: "Available",
-    readers: 31,
-    likes: 29,
-    coverUrl: "images/big-magic.png",
-    labels: "Creativity, Inspiration",
-    isFeatured: true,
-    isRecentlyAdded: true,
-  },
-  {
-    title: "Built To Last",
-    author: "Jim Collins, Jerry I. Porras",
-    year: 2001,
-    genre: "Motivational",
-    rating: 4,
-    status: "Borrowed Out",
-    readers: 31,
-    likes: 29,
-    coverUrl: "images/built-to-last.png",
-    labels: "Creative, Self-help",
-    isFeatured: true,
-    isRecentlyAdded: false,
-  },
-];
+import { books } from "./books";
 
 const prevButton = document.createElement("div");
 prevButton.className = "flickity-button flickity-prev-next-button previous";
@@ -90,6 +25,11 @@ const searchInputs = document.querySelectorAll(".searchInput");
 const searchSuggestions = document.getElementById("searchSuggestions");
 
 let currentActiveInput = null;
+
+const carouselWrapper = document.createElement("div");
+carouselWrapper.className = "carousel-wrapper";
+featuredCarousel.parentNode.insertBefore(carouselWrapper, featuredCarousel);
+carouselWrapper.appendChild(featuredCarousel);
 
 window.onload = function () {
   const rightSvg = document.querySelector(
@@ -118,306 +58,7 @@ window.onload = function () {
   }
 };
 
-function generateStars(rating) {
-  return Array.from({ length: 5 }, (_, i) =>
-    i < rating
-      ? '<span class="star filled">★</span>'
-      : '<span class="star empty">★</span>'
-  ).join("");
-}
-
-function renderBookCard(book) {
-  const bookCard = document.createElement("div");
-  bookCard.className = "book-card";
-  bookCard.innerHTML = `
-      <img src="/assets/${book.coverUrl}" alt="${book.title}" class="cover" />
-      <div>
-        <p class="status ${
-          book.status === "Available" ? "available" : "borrowed"
-        }">${book.status}</p>
-        <h3 class="title">${book.title}</h3>
-        <p class="author">${book.author} - ${book.year || "Year Unknown"}</p>
-        <p class="genre">${book.genre}</p>
-        <div class="rating-container">
-          <div class="rating">
-            Ratings: ${book.rating}
-            <span class="stars">${generateStars(book.rating)}</span>
-          </div>
-          <div class="stats">
-            <div class="readers">
-              <img src="/assets/icons/group.svg" alt="group-icon"/>
-              <span>${book.readers}</span>
-            </div>
-            <div class="likes">
-              <img src="/assets/icons/heart.svg" alt="heart-icon"/>
-              <span>${book.likes}</span>
-            </div>
-          </div>
-        </div>
-      </div>`;
-  return bookCard;
-}
-
-function renderBooks(
-  container,
-  bookArray,
-  sectionName = "books",
-  searchParams
-) {
-  container.innerHTML = "";
-
-  if (bookArray.length === 0) {
-    container.innerHTML = `<p class="not-found">No ${sectionName} found with the search criteria <strong>"${searchParams}"</strong>.</p>`;
-    return;
-  }
-
-  bookArray.forEach((book) => {
-    container.appendChild(renderBookCard(book));
-  });
-}
-
-const carouselWrapper = document.createElement("div");
-carouselWrapper.className = "carousel-wrapper";
-featuredCarousel.parentNode.insertBefore(carouselWrapper, featuredCarousel);
-
-carouselWrapper.appendChild(featuredCarousel);
-
-// function renderFeaturedBooks(bookArray, searchParams) {
-//   featuredCarousel.innerHTML = "";
-
-//   let currentIndex = 0;
-//   let cardWidth = 0;
-//   let totalCards = bookArray.length;
-
-//   const carouselTrack = document.createElement("div");
-//   carouselTrack.className = "carousel-track";
-//   featuredCarousel.appendChild(carouselTrack);
-
-//   const prevCarouselDots =
-//     document.getElementsByClassName("flickity-page-dots")[0];
-
-//   if (prevCarouselDots) prevCarouselDots.remove();
-
-//   const carouselDots = document.createElement("div");
-//   carouselDots.className = "flickity-page-dots";
-
-//   for (let i = 0; i < totalCards; i++) {
-//     const dot = document.createElement("div");
-//     dot.className = "dot";
-//     if (i === 0) dot.classList.add("is-selected");
-//     carouselDots.appendChild(dot);
-//   }
-//   carouselWrapper.appendChild(carouselDots);
-
-//   if (bookArray.length === 0) {
-//     carouselWrapper.removeChild(prevButton);
-//     carouselWrapper.removeChild(nextButton);
-//     featuredCarousel.innerHTML = `<p class="not-found">There's no featured book with the search criteria <strong>"${searchParams}"</strong>.</p>`;
-//     return;
-//   }
-
-//   bookArray.forEach((book, idx) => {
-//     const cell = document.createElement("div");
-//     cell.className = "carousel-cell";
-//     cell.id = `carousel-cell-${idx}`;
-
-//     cell.innerHTML = `
-//             <img
-//               src="/assets/${book.coverUrl}"
-//               alt="${book.title}"
-//             />
-//             <div class="open-details">
-//               <div class="circle">
-//                 <div class="circle__dot"></div>
-//                 <div class="circle__dot"></div>
-//                 <div class="circle__dot"></div>
-//               </div>
-//             </div>
-//             <div class="shadow-box"></div>
-//             <div class="overlay">
-//               <img
-//                 src="/assets/icons/close-details.svg"
-//                 alt="close-details-icon"
-//                 class="close-details"
-//               />
-//               <div class="overlay__content">
-//                    <p class="status ${
-//                      book.status === "Available" ? "available" : "borrowed"
-//                    }">${book.status}</p>
-//                 <div class="title">${book.title}</div>
-//                 <div class="author">${book.author}</div>
-//                 <div class="year">${book.year}</div>
-//                 <div class="info-section">
-//                   <strong>Genre:</strong> ${book.genre} <br />
-//                   <strong class="labels">Labels:</strong> ${
-//                     book.labels || "N/A"
-//                   }
-//                 </div>
-//                 <div class="rating-container">
-//                   <div class="rating">
-//                     <div><strong> Ratings:</strong> ${book.rating}</div>
-//                     <span class="stars">${generateStars(book.rating)}</span>
-//                   </div>
-//                   <div class="stats">
-//                     <div class="readers">
-//                       <img
-//                         src="/assets/icons/group-grey.svg"
-//                         alt="group-icon"
-//                       />
-//                       <span>${book.readers}</span>
-//                     </div>
-//                     <div class="likes">
-//                       <img
-//                         src="/assets/icons/heart-grey.svg"
-//                         alt="heart-icon"
-//                       />
-//                       <span>${book.likes}</span>
-//                     </div>
-//                   </div>
-//                 </div>
-//               </div>
-//             </div>
-//             <div class="mobile-overlay">
-//               <img
-//                 src="/assets/icons/close-details.svg"
-//                 alt="close-details-icon"
-//                 class="close-details"
-//               />
-//               <div class="mobile-overlay__content">
-//               <p class="status ${
-//                 book.status === "Available" ? "available" : "borrowed"
-//               }">${book.status}</p>
-//                 <div class="title">${book.title}</div>
-//                 <div class="author">${book.author}</div>
-//                 <div class="year">${book.year}</div>
-//                 <div class="info-section">
-//                   <strong>Genre:</strong> ${book.genre} <br />
-//                   <strong class="labels">Labels:</strong> ${
-//                     book.labels || "N/A"
-//                   }
-//                 </div>
-//                 <div class="rating-container">
-//                   <div class="rating">
-//                     <div><strong> Ratings:</strong> ${book.rating}</div>
-//                     <span class="stars">${generateStars(book.rating)}</span>
-//                   </div>
-//                   <div class="stats">
-//                     <div class="readers">
-//                       <img
-//                         src="/assets/icons/group-mobile.svg"
-//                         alt="group-icon"
-//                       />
-//                       <span>${book.readers}</span>
-//                     </div>
-//                     <div class="likes">
-//                       <img
-//                         src="/assets/icons/heart-mobile.svg"
-//                         alt="heart-icon"
-//                       />
-//                       <span>${book.likes}</span>
-//                     </div>
-//                   </div>
-//                 </div>
-//               </div>
-//             </div>
-//     `;
-//     // featuredCarousel.appendChild(cell);
-//     carouselTrack.appendChild(cell);
-
-//     const overlays = cell.querySelectorAll(".overlay, .mobile-overlay");
-//     const openDetails = cell.querySelector(".open-details");
-//     const closeButtons = cell.querySelectorAll(".close-details");
-
-//     openDetails.addEventListener("click", () => {
-//       document
-//         .querySelectorAll(".overlay.active, .mobile-overlay.active")
-//         .forEach((activeOverlay) => {
-//           activeOverlay.classList.remove("active");
-//         });
-
-//       overlays.forEach((overlay) => overlay.classList.add("active"));
-//     });
-
-//     closeButtons.forEach((closeBtn) => {
-//       closeBtn.addEventListener("click", () => {
-//         overlays.forEach((overlay) => overlay.classList.remove("active"));
-//       });
-//     });
-//   });
-
-//   carouselWrapper.appendChild(prevButton);
-//   carouselWrapper.appendChild(nextButton);
-
-//   const firstCard = featuredCarousel.querySelector(".carousel-cell");
-//   if (firstCard) {
-//     cardWidth =
-//       firstCard.offsetWidth +
-//       parseInt(getComputedStyle(firstCard).marginRight || 0);
-//   }
-
-//   const rootEl = document.querySelector(".carousel"); // the scrollable container
-
-//   const lastCard = document.getElementById(`carousel-cell-${totalCards - 1}`);
-//   let isLastFullyVisible = false;
-
-//   const obs = new IntersectionObserver(
-//     (entries) => {
-//       entries.forEach((entry) => {
-//         if (entry.intersectionRatio >= 0.99) {
-//           isLastFullyVisible = true;
-
-//         } else {
-//           isLastFullyVisible = false;
-
-//         }
-//       });
-//     },
-//     {
-//       root: rootEl,
-//       threshold: [0.5, 0.75, 0.99],
-//     }
-//   );
-
-//   if (lastCard) obs.observe(lastCard);
-//   function updateCarousel() {
-//     const scrollAmount = currentIndex * cardWidth;
-//     carouselTrack.style.transform = `translateX(-${scrollAmount}px)`;
-
-//     const dots = carouselDots.querySelectorAll(".dot");
-//     dots.forEach((dot, index) => {
-//       dot.classList.toggle("is-selected", index === currentIndex);
-//     });
-
-//     prevButton.style.opacity = currentIndex === 0 ? "0.5" : "1";
-//     nextButton.style.opacity = currentIndex === totalCards - 1 ? "0.5" : "1";
-//   }
-
-//   prevButton.addEventListener("click", () => {
-//     if (currentIndex > 0) {
-//       currentIndex--;
-//       updateCarousel();
-//     }
-//   });
-
-//   nextButton.addEventListener("click", () => {
-//     if (!isLastFullyVisible && currentIndex < totalCards - 1) {
-//       currentIndex++;
-//       updateCarousel();
-//     }
-//   });
-
-//   const dots = carouselDots.querySelectorAll(".dot");
-//   dots.forEach((dot, index) => {
-//     dot.addEventListener("click", () => {
-//       currentIndex = index;
-//       updateCarousel();
-//     });
-//   });
-
-//   updateCarousel();
-// }
-
-function renderFeaturedBooks(bookArray, searchParams) {
+function renderFeaturedBooks(bookArray, searchParams, carouselWrapper) {
   if (!featuredCarousel) return;
 
   featuredCarousel.innerHTML = "";
@@ -431,6 +72,9 @@ function renderFeaturedBooks(bookArray, searchParams) {
   const carouselTrack = document.createElement("div");
   carouselTrack.className = "carousel-track";
   featuredCarousel.appendChild(carouselTrack);
+
+  const carousel = document.querySelector(".carousel");
+  const featuredBooks = document.querySelector(".featured-books");
 
   const prevCarouselDots =
     document.getElementsByClassName("flickity-page-dots")[0];
@@ -453,8 +97,16 @@ function renderFeaturedBooks(bookArray, searchParams) {
       carouselWrapper.removeChild(prevButton);
     if (carouselWrapper.contains(nextButton))
       carouselWrapper.removeChild(nextButton);
+
+    if (carousel) carousel.classList.add("empty");
+    if (featuredBooks) featuredBooks.classList.add("empty");
+
     featuredCarousel.innerHTML = `<p class="not-found">There's no featured book with the search criteria <strong>"${searchParams}"</strong>.</p>`;
+
     return;
+  } else {
+    if (carousel) carousel.classList.remove("empty");
+    if (featuredBooks) featuredBooks.classList.remove("empty");
   }
 
   bookArray.forEach((book, idx) => {
@@ -730,18 +382,11 @@ function filterBooks(query) {
   renderBooks(allBookList, filtered, "books", q);
   renderFeaturedBooks(
     filtered.filter((b) => b.isFeatured),
-    q
+    q,
+    carouselWrapper
   );
 
   updateSuggestions(filtered);
-}
-
-function syncSearchInputs(activeInput, value) {
-  searchInputs.forEach((input) => {
-    if (input !== activeInput) {
-      input.value = value;
-    }
-  });
 }
 
 function resetToDefaultView() {
@@ -750,7 +395,11 @@ function resetToDefaultView() {
     books.filter((b) => b.isRecentlyAdded)
   );
   renderBooks(allBookList, books);
-  renderFeaturedBooks(books.filter((b) => b.isFeatured));
+  renderFeaturedBooks(
+    books.filter((b) => b.isFeatured),
+    undefined,
+    carouselWrapper
+  );
   searchSuggestions.classList.add("hidden");
   mobileSuggestions.classList.add("hidden");
 }
