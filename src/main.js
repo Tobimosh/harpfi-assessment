@@ -1,5 +1,4 @@
 import "./scss/index.scss";
-// import "flickity/css/flickity.css";
 
 const books = [
   {
@@ -20,7 +19,7 @@ const books = [
     title: "The Lean Startup",
     author: "Eric Reis",
     year: 2005,
-    genre: "Motivational",
+    genre: "Business",
     rating: 4,
     status: "Available",
     readers: 31,
@@ -34,7 +33,7 @@ const books = [
     title: "Effective Python",
     author: "Diomidis Spinellis",
     year: 2010,
-    genre: "Motivational",
+    genre: "Inspirational",
     rating: 4,
     status: "Available",
     readers: 31,
@@ -48,7 +47,7 @@ const books = [
     title: "Big Magic",
     author: "Elizabeth Gilbert",
     year: 2014,
-    genre: "Motivational",
+    genre: "Spiritual",
     rating: 4,
     status: "Available",
     readers: 31,
@@ -183,12 +182,251 @@ featuredCarousel.parentNode.insertBefore(carouselWrapper, featuredCarousel);
 
 carouselWrapper.appendChild(featuredCarousel);
 
+// function renderFeaturedBooks(bookArray, searchParams) {
+//   featuredCarousel.innerHTML = "";
+
+//   let currentIndex = 0;
+//   let cardWidth = 0;
+//   let totalCards = bookArray.length;
+
+//   const carouselTrack = document.createElement("div");
+//   carouselTrack.className = "carousel-track";
+//   featuredCarousel.appendChild(carouselTrack);
+
+//   const prevCarouselDots =
+//     document.getElementsByClassName("flickity-page-dots")[0];
+
+//   if (prevCarouselDots) prevCarouselDots.remove();
+
+//   const carouselDots = document.createElement("div");
+//   carouselDots.className = "flickity-page-dots";
+
+//   for (let i = 0; i < totalCards; i++) {
+//     const dot = document.createElement("div");
+//     dot.className = "dot";
+//     if (i === 0) dot.classList.add("is-selected");
+//     carouselDots.appendChild(dot);
+//   }
+//   carouselWrapper.appendChild(carouselDots);
+
+//   if (bookArray.length === 0) {
+//     carouselWrapper.removeChild(prevButton);
+//     carouselWrapper.removeChild(nextButton);
+//     featuredCarousel.innerHTML = `<p class="not-found">There's no featured book with the search criteria <strong>"${searchParams}"</strong>.</p>`;
+//     return;
+//   }
+
+//   bookArray.forEach((book, idx) => {
+//     const cell = document.createElement("div");
+//     cell.className = "carousel-cell";
+//     cell.id = `carousel-cell-${idx}`;
+
+//     cell.innerHTML = `
+//             <img
+//               src="/assets/${book.coverUrl}"
+//               alt="${book.title}"
+//             />
+//             <div class="open-details">
+//               <div class="circle">
+//                 <div class="circle__dot"></div>
+//                 <div class="circle__dot"></div>
+//                 <div class="circle__dot"></div>
+//               </div>
+//             </div>
+//             <div class="shadow-box"></div>
+//             <div class="overlay">
+//               <img
+//                 src="/assets/icons/close-details.svg"
+//                 alt="close-details-icon"
+//                 class="close-details"
+//               />
+//               <div class="overlay__content">
+//                    <p class="status ${
+//                      book.status === "Available" ? "available" : "borrowed"
+//                    }">${book.status}</p>
+//                 <div class="title">${book.title}</div>
+//                 <div class="author">${book.author}</div>
+//                 <div class="year">${book.year}</div>
+//                 <div class="info-section">
+//                   <strong>Genre:</strong> ${book.genre} <br />
+//                   <strong class="labels">Labels:</strong> ${
+//                     book.labels || "N/A"
+//                   }
+//                 </div>
+//                 <div class="rating-container">
+//                   <div class="rating">
+//                     <div><strong> Ratings:</strong> ${book.rating}</div>
+//                     <span class="stars">${generateStars(book.rating)}</span>
+//                   </div>
+//                   <div class="stats">
+//                     <div class="readers">
+//                       <img
+//                         src="/assets/icons/group-grey.svg"
+//                         alt="group-icon"
+//                       />
+//                       <span>${book.readers}</span>
+//                     </div>
+//                     <div class="likes">
+//                       <img
+//                         src="/assets/icons/heart-grey.svg"
+//                         alt="heart-icon"
+//                       />
+//                       <span>${book.likes}</span>
+//                     </div>
+//                   </div>
+//                 </div>
+//               </div>
+//             </div>
+//             <div class="mobile-overlay">
+//               <img
+//                 src="/assets/icons/close-details.svg"
+//                 alt="close-details-icon"
+//                 class="close-details"
+//               />
+//               <div class="mobile-overlay__content">
+//               <p class="status ${
+//                 book.status === "Available" ? "available" : "borrowed"
+//               }">${book.status}</p>
+//                 <div class="title">${book.title}</div>
+//                 <div class="author">${book.author}</div>
+//                 <div class="year">${book.year}</div>
+//                 <div class="info-section">
+//                   <strong>Genre:</strong> ${book.genre} <br />
+//                   <strong class="labels">Labels:</strong> ${
+//                     book.labels || "N/A"
+//                   }
+//                 </div>
+//                 <div class="rating-container">
+//                   <div class="rating">
+//                     <div><strong> Ratings:</strong> ${book.rating}</div>
+//                     <span class="stars">${generateStars(book.rating)}</span>
+//                   </div>
+//                   <div class="stats">
+//                     <div class="readers">
+//                       <img
+//                         src="/assets/icons/group-mobile.svg"
+//                         alt="group-icon"
+//                       />
+//                       <span>${book.readers}</span>
+//                     </div>
+//                     <div class="likes">
+//                       <img
+//                         src="/assets/icons/heart-mobile.svg"
+//                         alt="heart-icon"
+//                       />
+//                       <span>${book.likes}</span>
+//                     </div>
+//                   </div>
+//                 </div>
+//               </div>
+//             </div>
+//     `;
+//     // featuredCarousel.appendChild(cell);
+//     carouselTrack.appendChild(cell);
+
+//     const overlays = cell.querySelectorAll(".overlay, .mobile-overlay");
+//     const openDetails = cell.querySelector(".open-details");
+//     const closeButtons = cell.querySelectorAll(".close-details");
+
+//     openDetails.addEventListener("click", () => {
+//       document
+//         .querySelectorAll(".overlay.active, .mobile-overlay.active")
+//         .forEach((activeOverlay) => {
+//           activeOverlay.classList.remove("active");
+//         });
+
+//       overlays.forEach((overlay) => overlay.classList.add("active"));
+//     });
+
+//     closeButtons.forEach((closeBtn) => {
+//       closeBtn.addEventListener("click", () => {
+//         overlays.forEach((overlay) => overlay.classList.remove("active"));
+//       });
+//     });
+//   });
+
+//   carouselWrapper.appendChild(prevButton);
+//   carouselWrapper.appendChild(nextButton);
+
+//   const firstCard = featuredCarousel.querySelector(".carousel-cell");
+//   if (firstCard) {
+//     cardWidth =
+//       firstCard.offsetWidth +
+//       parseInt(getComputedStyle(firstCard).marginRight || 0);
+//   }
+
+//   const rootEl = document.querySelector(".carousel"); // the scrollable container
+
+//   const lastCard = document.getElementById(`carousel-cell-${totalCards - 1}`);
+//   let isLastFullyVisible = false;
+
+//   const obs = new IntersectionObserver(
+//     (entries) => {
+//       entries.forEach((entry) => {
+//         if (entry.intersectionRatio >= 0.99) {
+//           isLastFullyVisible = true;
+
+//         } else {
+//           isLastFullyVisible = false;
+
+//         }
+//       });
+//     },
+//     {
+//       root: rootEl,
+//       threshold: [0.5, 0.75, 0.99],
+//     }
+//   );
+
+//   if (lastCard) obs.observe(lastCard);
+//   function updateCarousel() {
+//     const scrollAmount = currentIndex * cardWidth;
+//     carouselTrack.style.transform = `translateX(-${scrollAmount}px)`;
+
+//     const dots = carouselDots.querySelectorAll(".dot");
+//     dots.forEach((dot, index) => {
+//       dot.classList.toggle("is-selected", index === currentIndex);
+//     });
+
+//     prevButton.style.opacity = currentIndex === 0 ? "0.5" : "1";
+//     nextButton.style.opacity = currentIndex === totalCards - 1 ? "0.5" : "1";
+//   }
+
+//   prevButton.addEventListener("click", () => {
+//     if (currentIndex > 0) {
+//       currentIndex--;
+//       updateCarousel();
+//     }
+//   });
+
+//   nextButton.addEventListener("click", () => {
+//     if (!isLastFullyVisible && currentIndex < totalCards - 1) {
+//       currentIndex++;
+//       updateCarousel();
+//     }
+//   });
+
+//   const dots = carouselDots.querySelectorAll(".dot");
+//   dots.forEach((dot, index) => {
+//     dot.addEventListener("click", () => {
+//       currentIndex = index;
+//       updateCarousel();
+//     });
+//   });
+
+//   updateCarousel();
+// }
+
 function renderFeaturedBooks(bookArray, searchParams) {
+  if (!featuredCarousel) return;
+
   featuredCarousel.innerHTML = "";
 
   let currentIndex = 0;
   let cardWidth = 0;
-  let totalCards = bookArray.length;
+  const totalCards = bookArray.length;
+  let isManualScrolling = false;
+  const lastScrollPosition = 0;
 
   const carouselTrack = document.createElement("div");
   carouselTrack.className = "carousel-track";
@@ -211,8 +449,10 @@ function renderFeaturedBooks(bookArray, searchParams) {
   carouselWrapper.appendChild(carouselDots);
 
   if (bookArray.length === 0) {
-    carouselWrapper.removeChild(prevButton);
-    carouselWrapper.removeChild(nextButton);
+    if (carouselWrapper.contains(prevButton))
+      carouselWrapper.removeChild(prevButton);
+    if (carouselWrapper.contains(nextButton))
+      carouselWrapper.removeChild(nextButton);
     featuredCarousel.innerHTML = `<p class="not-found">There's no featured book with the search criteria <strong>"${searchParams}"</strong>.</p>`;
     return;
   }
@@ -322,7 +562,6 @@ function renderFeaturedBooks(bookArray, searchParams) {
               </div>
             </div>
     `;
-    // featuredCarousel.appendChild(cell);
     carouselTrack.appendChild(cell);
 
     const overlays = cell.querySelectorAll(".overlay, .mobile-overlay");
@@ -353,81 +592,106 @@ function renderFeaturedBooks(bookArray, searchParams) {
   if (firstCard) {
     cardWidth =
       firstCard.offsetWidth +
-      parseInt(getComputedStyle(firstCard).marginRight || 0);
+      Number.parseInt(getComputedStyle(firstCard).marginRight || 0);
   }
 
-  let isLastItemFullyVisible = false;
+  // Make the carousel scrollable
+  featuredCarousel.style.overflowX = "auto";
+  featuredCarousel.style.scrollBehavior = "smooth";
+  featuredCarousel.style.scrollSnapType = "x mandatory";
 
-  const lastCardObserverCallback = (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        isLastItemFullyVisible = true;
-        nextButton.style.pointerEvents = "none";
-        nextButton.style.opacity = "0.5";
-      } else {
-        isLastItemFullyVisible = false;
-        nextButton.style.pointerEvents = "auto";
-        nextButton.style.opacity =
-          currentIndex === totalCards - 1 ? "0.5" : "1";
-      }
-    });
-
-    // console.log(isLastItemFullyVisible);
-  };
-
-  const lastCardObserver = new IntersectionObserver(lastCardObserverCallback, {
-    root: carouselTrack, // You can set this to carouselTrack if it scrolls internally
-    threshold: 1.0, // Fully visible
+  // Make each cell a scroll snap point
+  const cells = featuredCarousel.querySelectorAll(".carousel-cell");
+  cells.forEach((cell) => {
+    cell.style.scrollSnapAlign = "start";
   });
 
-  // Observe the last cell
-  const lastCardCell = document.getElementById(
-    `carousel-cell-${totalCards - 1}`
-  );
+  // Hide scrollbar but keep functionality
+  featuredCarousel.style.scrollbarWidth = "none";
+  featuredCarousel.style.msOverflowStyle = "none";
+  const style = document.createElement("style");
+  style.textContent = `
+    #featured-carousel::-webkit-scrollbar {
+      display: none;
+    }
+  `;
+  document.head.appendChild(style);
 
-  if (lastCardCell) {
-    lastCardObserver.observe(lastCardCell);
-  }
+  // Update dots and buttons based on scroll position
+  function updateIndicators() {
+    const scrollPosition = featuredCarousel.scrollLeft;
+    const viewportWidth = featuredCarousel.clientWidth;
+    const maxScroll = featuredCarousel.scrollWidth - viewportWidth;
 
-  function updateCarousel() {
-    const scrollAmount = currentIndex * cardWidth;
-    carouselTrack.style.transform = `translateX(-${scrollAmount}px)`;
+    // Calculate current index based on scroll position
+    currentIndex = Math.round(scrollPosition / cardWidth);
+    if (currentIndex < 0) currentIndex = 0;
+    if (currentIndex >= totalCards) currentIndex = totalCards - 1;
 
-    // console.log(carouselTrack.childNodes);
-
+    // Update dots
     const dots = carouselDots.querySelectorAll(".dot");
     dots.forEach((dot, index) => {
       dot.classList.toggle("is-selected", index === currentIndex);
     });
 
-    prevButton.style.opacity = currentIndex === 0 ? "0.5" : "1";
-    nextButton.style.opacity = currentIndex === totalCards - 1 ? "0.5" : "1";
+    // Update button states
+    prevButton.style.opacity = scrollPosition <= 5 ? "0.5" : "1";
+    nextButton.style.opacity = scrollPosition >= maxScroll - 5 ? "0.5" : "1";
   }
 
-  prevButton.addEventListener("click", () => {
-    if (currentIndex > 0) {
-      currentIndex--;
-      updateCarousel();
+  // Scroll to a specific index
+  function scrollToIndex(index) {
+    if (index < 0) index = 0;
+    if (index >= totalCards) index = totalCards - 1;
+
+    const scrollPosition = index * cardWidth;
+    featuredCarousel.scrollTo({
+      left: scrollPosition,
+      behavior: "smooth",
+    });
+
+    currentIndex = index;
+    updateIndicators();
+  }
+
+  // Handle scroll events
+  featuredCarousel.addEventListener("scroll", () => {
+    if (!isManualScrolling) {
+      updateIndicators();
     }
+  });
+
+  // Handle button clicks
+  prevButton.addEventListener("click", () => {
+    isManualScrolling = true;
+    scrollToIndex(currentIndex - 1);
+    setTimeout(() => {
+      isManualScrolling = false;
+    }, 500);
   });
 
   nextButton.addEventListener("click", () => {
-    if (isLastItemFullyVisible) return;
-    if (currentIndex < totalCards - 1) {
-      currentIndex++;
-      updateCarousel();
-    }
+    isManualScrolling = true;
+    scrollToIndex(currentIndex + 1);
+    setTimeout(() => {
+      isManualScrolling = false;
+    }, 500);
   });
 
+  // Handle dot clicks
   const dots = carouselDots.querySelectorAll(".dot");
   dots.forEach((dot, index) => {
     dot.addEventListener("click", () => {
-      currentIndex = index;
-      updateCarousel();
+      isManualScrolling = true;
+      scrollToIndex(index);
+      setTimeout(() => {
+        isManualScrolling = false;
+      }, 500);
     });
   });
 
-  updateCarousel();
+  // Initial update
+  updateIndicators();
 }
 
 function updateSuggestions(bookArray) {
@@ -441,7 +705,11 @@ function updateSuggestions(bookArray) {
   searchSuggestions.innerHTML = uniqueSuggestions
     .map((suggestion) => `<p>${suggestion}</p>`)
     .join("");
+  mobileSuggestions.innerHTML = uniqueSuggestions
+    .map((suggestion) => `<p>${suggestion}</p>`)
+    .join("");
   searchSuggestions.classList.toggle("hidden", uniqueSuggestions.length === 0);
+  mobileSuggestions.classList.toggle("hidden", uniqueSuggestions.length === 0);
 }
 
 function filterBooks(query) {
@@ -484,10 +752,29 @@ function resetToDefaultView() {
   renderBooks(allBookList, books);
   renderFeaturedBooks(books.filter((b) => b.isFeatured));
   searchSuggestions.classList.add("hidden");
+  mobileSuggestions.classList.add("hidden");
 }
 
 document.addEventListener("DOMContentLoaded", () => {
   resetToDefaultView();
+  const dummySuggestions = [
+    `<p>
+            <span>Built to Last</span
+            ><span class="grey"> - Jim Collins, Jerry I. Porras...</span>
+          </p>`,
+    `
+          <p>
+            <span>Four Steps To The Epiphany</span>
+            <span class="grey"> - James McEnroe </span>
+          </p>
+          `,
+    `
+          <p><span>The Lean Start Up</span> <span>- Eric Reiss</span></p>`,
+    `<p class="grey">
+            <span>No Excuses</span>
+            <span class="grey">- Brian Tracy</span>
+          </p>`,
+  ];
 
   searchInputs.forEach((searchInput) => {
     searchInput.addEventListener("input", (e) => {
@@ -508,21 +795,36 @@ document.addEventListener("DOMContentLoaded", () => {
       const query = e.target.value.trim();
       if (query) {
         filterBooks(query);
-      } else {
-        updateSuggestions(books);
+      }
+      if (query.length === 0) {
+        searchSuggestions.innerHTML = dummySuggestions
+          .map((suggestion) => suggestion)
+          .join("");
+        mobileSuggestions.innerHTML = dummySuggestions
+          .map((suggestion) => suggestion)
+          .join("");
       }
       searchSuggestions.classList.remove("hidden");
+      mobileSuggestions.classList.remove("hidden");
     });
 
     searchInput.addEventListener("blur", () => {
+      searchSuggestions.innerHTML = dummySuggestions
+        .map((suggestion) => suggestion)
+        .join("");
+      mobileSuggestions.innerHTML = dummySuggestions
+        .map((suggestion) => suggestion)
+        .join("");
       setTimeout(() => {
         searchSuggestions.classList.add("hidden");
+        mobileSuggestions.classList.add("hidden");
       }, 200);
     });
   });
 });
 
 searchSuggestions.addEventListener("click", (e) => {
+  console.log("e.target.innerText");
   if (e.target.tagName === "P") {
     const selectedValue = e.target.innerText.trim();
 
@@ -532,6 +834,23 @@ searchSuggestions.addEventListener("click", (e) => {
 
     filterBooks(selectedValue);
     searchSuggestions.classList.add("hidden");
+
+    if (currentActiveInput) {
+      currentActiveInput.focus();
+    }
+  }
+});
+
+mobileSuggestions.addEventListener("click", (e) => {
+  if (e.target.tagName === "P") {
+    const selectedValue = e.target.innerText.trim();
+
+    searchInputs.forEach((input) => {
+      input.value = selectedValue;
+    });
+
+    filterBooks(selectedValue);
+    mobileSuggestions.classList.add("hidden");
 
     if (currentActiveInput) {
       currentActiveInput.focus();
