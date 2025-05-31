@@ -59,7 +59,7 @@
     align-items: center;
     gap: 1.5rem;
 
-    .search {
+    .mobile-search-button {
       display: none;
     }
 
@@ -128,7 +128,7 @@
         top: 0;
       }
 
-      .close-search{
+      .close-search {
         margin-right: 1rem;
       }
 
@@ -138,8 +138,6 @@
         input {
           width: 50%;
         }
-
-     
       }
     }
 
@@ -169,7 +167,7 @@
 
     &__right {
       gap: 1rem;
-      .search {
+      .mobile-search-button {
         display: inline;
         width: 15px;
         height: 15px;

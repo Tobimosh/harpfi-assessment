@@ -154,7 +154,7 @@
   left: 0;
   right: 0;
   background: white;
-  border: 1px solid #EEEEEE;
+  border: 1px solid #eeeeee;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
   z-index: 10;
 }
@@ -339,7 +339,13 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.65) 0%, rgba(0, 0, 0, 0.75) 30%, rgba(0, 0, 0, 0.95) 57%, rgb(0, 0, 0) 100%);
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.65) 0%,
+    rgba(0, 0, 0, 0.75) 30%,
+    rgba(0, 0, 0, 0.95) 57%,
+    rgb(0, 0, 0) 100%
+  );
   backdrop-filter: blur(3.75px);
   color: #fff;
   padding: 0.5rem 1.875rem 0rem;
@@ -406,18 +412,45 @@
   padding-right: 0.625rem;
   border-right: 1px solid #333333;
 }
-.featured-books .carousel .carousel-cell .overlay .rating-container .rating .stars {
+.featured-books
+  .carousel
+  .carousel-cell
+  .overlay
+  .rating-container
+  .rating
+  .stars {
   display: flex;
   gap: 2px;
 }
-.featured-books .carousel .carousel-cell .overlay .rating-container .rating .stars .star {
+.featured-books
+  .carousel
+  .carousel-cell
+  .overlay
+  .rating-container
+  .rating
+  .stars
+  .star {
   width: 15px;
   height: 15px;
 }
-.featured-books .carousel .carousel-cell .overlay .rating-container .rating .stars .star.filled {
+.featured-books
+  .carousel
+  .carousel-cell
+  .overlay
+  .rating-container
+  .rating
+  .stars
+  .star.filled {
   color: #fbbf24;
 }
-.featured-books .carousel .carousel-cell .overlay .rating-container .rating .stars .star.empty {
+.featured-books
+  .carousel
+  .carousel-cell
+  .overlay
+  .rating-container
+  .rating
+  .stars
+  .star.empty {
   color: #333333;
 }
 .featured-books .carousel .carousel-cell .overlay .rating-container .stats {

@@ -74,13 +74,22 @@ const books = [
   },
 ];
 
+const prevButton = document.createElement("div");
+prevButton.className = "flickity-button flickity-prev-next-button previous";
+prevButton.innerHTML = `
+<img class="flickity-button-icon prev" src="/assets/icons/prev.svg" alt="Previous" />`;
+
+const nextButton = document.createElement("div");
+nextButton.className = "flickity-button flickity-prev-next-button next";
+nextButton.innerHTML = `
+        <img class="flickity-button-icon next" src="/assets/icons/prev.svg" alt="Next" />`;
+
 const featuredCarousel = document.getElementById("featured-carousel");
 const recentlyAddedBookList = document.getElementById("recentlyAddedBookList");
 const allBookList = document.getElementById("allBookList");
 const searchInputs = document.querySelectorAll(".searchInput");
 const searchSuggestions = document.getElementById("searchSuggestions");
 
-let flickityInstance = null;
 let currentActiveInput = null;
 
 window.onload = function () {
@@ -172,29 +181,47 @@ const carouselWrapper = document.createElement("div");
 carouselWrapper.className = "carousel-wrapper";
 featuredCarousel.parentNode.insertBefore(carouselWrapper, featuredCarousel);
 
-
 carouselWrapper.appendChild(featuredCarousel);
 
 function renderFeaturedBooks(bookArray, searchParams) {
-  if (flickityInstance) {
-    flickityInstance.destroy();
-    flickityInstance = null;
-  }
-
   featuredCarousel.innerHTML = "";
-
-  if (bookArray.length === 0) {
-    featuredCarousel.innerHTML = `<p class="not-found">There's no featured book with the search criteria <strong>"${searchParams}"</strong>.</p>`;
-    return;
-  }
 
   let currentIndex = 0;
   let cardWidth = 0;
   let totalCards = bookArray.length;
 
-  bookArray.forEach((book) => {
+  const carouselTrack = document.createElement("div");
+  carouselTrack.className = "carousel-track";
+  featuredCarousel.appendChild(carouselTrack);
+
+  const prevCarouselDots =
+    document.getElementsByClassName("flickity-page-dots")[0];
+
+  if (prevCarouselDots) prevCarouselDots.remove();
+
+  const carouselDots = document.createElement("div");
+  carouselDots.className = "flickity-page-dots";
+
+  for (let i = 0; i < totalCards; i++) {
+    const dot = document.createElement("div");
+    dot.className = "dot";
+    if (i === 0) dot.classList.add("is-selected");
+    carouselDots.appendChild(dot);
+  }
+  carouselWrapper.appendChild(carouselDots);
+
+  if (bookArray.length === 0) {
+    carouselWrapper.removeChild(prevButton);
+    carouselWrapper.removeChild(nextButton);
+    featuredCarousel.innerHTML = `<p class="not-found">There's no featured book with the search criteria <strong>"${searchParams}"</strong>.</p>`;
+    return;
+  }
+
+  bookArray.forEach((book, idx) => {
     const cell = document.createElement("div");
     cell.className = "carousel-cell";
+    cell.id = `carousel-cell-${idx}`;
+
     cell.innerHTML = `
             <img
               src="/assets/${book.coverUrl}"
@@ -258,7 +285,9 @@ function renderFeaturedBooks(bookArray, searchParams) {
                 class="close-details"
               />
               <div class="mobile-overlay__content">
-                <p class="status">${book.status}</p>
+              <p class="status ${
+                book.status === "Available" ? "available" : "borrowed"
+              }">${book.status}</p>
                 <div class="title">${book.title}</div>
                 <div class="author">${book.author}</div>
                 <div class="year">${book.year}</div>
@@ -293,7 +322,8 @@ function renderFeaturedBooks(bookArray, searchParams) {
               </div>
             </div>
     `;
-    featuredCarousel.appendChild(cell);
+    // featuredCarousel.appendChild(cell);
+    carouselTrack.appendChild(cell);
 
     const overlays = cell.querySelectorAll(".overlay, .mobile-overlay");
     const openDetails = cell.querySelector(".open-details");
@@ -316,16 +346,7 @@ function renderFeaturedBooks(bookArray, searchParams) {
     });
   });
 
-  const prevButton = document.createElement("div");
-  prevButton.className = "flickity-button flickity-prev-next-button previous";
-  prevButton.innerHTML = `
-  <img class="flickity-button-icon prev" src="/assets/icons/prev.svg" alt="Previous" />`;
   carouselWrapper.appendChild(prevButton);
-
-  const nextButton = document.createElement("div");
-  nextButton.className = "flickity-button flickity-prev-next-button next";
-  nextButton.innerHTML = `
-          <img class="flickity-button-icon next" src="/assets/icons/prev.svg" alt="Next" />`;
   carouselWrapper.appendChild(nextButton);
 
   const firstCard = featuredCarousel.querySelector(".carousel-cell");
@@ -335,22 +356,44 @@ function renderFeaturedBooks(bookArray, searchParams) {
       parseInt(getComputedStyle(firstCard).marginRight || 0);
   }
 
+  let isLastItemFullyVisible = false;
 
+  const lastCardObserverCallback = (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        isLastItemFullyVisible = true;
+        nextButton.style.pointerEvents = "none";
+        nextButton.style.opacity = "0.5";
+      } else {
+        isLastItemFullyVisible = false;
+        nextButton.style.pointerEvents = "auto";
+        nextButton.style.opacity =
+          currentIndex === totalCards - 1 ? "0.5" : "1";
+      }
+    });
 
-  const carouselDots = document.createElement("div");
-  carouselDots.className = "flickity-page-dots";
+    // console.log(isLastItemFullyVisible);
+  };
 
-  for (let i = 0; i < totalCards; i++) {
-    const dot = document.createElement("div");
-    dot.className = "dot";
-    if (i === 0) dot.classList.add("is-selected"); 
-    carouselDots.appendChild(dot);
+  const lastCardObserver = new IntersectionObserver(lastCardObserverCallback, {
+    root: carouselTrack, // You can set this to carouselTrack if it scrolls internally
+    threshold: 1.0, // Fully visible
+  });
+
+  // Observe the last cell
+  const lastCardCell = document.getElementById(
+    `carousel-cell-${totalCards - 1}`
+  );
+
+  if (lastCardCell) {
+    lastCardObserver.observe(lastCardCell);
   }
-  carouselWrapper.appendChild(carouselDots);
 
   function updateCarousel() {
     const scrollAmount = currentIndex * cardWidth;
-    featuredCarousel.style.transform = `translateX(-${scrollAmount}px)`;
+    carouselTrack.style.transform = `translateX(-${scrollAmount}px)`;
+
+    // console.log(carouselTrack.childNodes);
 
     const dots = carouselDots.querySelectorAll(".dot");
     dots.forEach((dot, index) => {
@@ -369,6 +412,7 @@ function renderFeaturedBooks(bookArray, searchParams) {
   });
 
   nextButton.addEventListener("click", () => {
+    if (isLastItemFullyVisible) return;
     if (currentIndex < totalCards - 1) {
       currentIndex++;
       updateCarousel();
