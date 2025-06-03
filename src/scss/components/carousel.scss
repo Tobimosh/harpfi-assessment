@@ -1,3 +1,5 @@
+@use '../_mixins' as mixins;
+
 .featured-books {
   padding: 1.6875rem 0 2rem 0;
   width: 100%;
@@ -112,10 +114,9 @@
     gap: 20px;
     height: 370px;
     overflow-x: scroll;
-  -ms-overflow-style: none;
+    -ms-overflow-style: none;
     scrollbar-width: none;
     overflow-y: hidden;
-
 
     &.empty {
       height: auto;
@@ -285,10 +286,13 @@
             display: grid;
             gap: 0.5rem;
             font-size: 0.75rem;
-            grid-template-columns: repeat(2, 1fr); /* 2 columns */
-            grid-template-rows: repeat(2, 1fr);    /* 2 rows */
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(2, 1fr); 
             align-items: center;
 
+            .like-btn {
+              @include mixins.like-button();
+            }
           }
         }
       }
@@ -462,7 +466,6 @@
               gap: 3px;
               font-weight: 400;
               font-size: 0.75rem;
-              // margin-bottom: 0.25rem;
 
               strong {
                 font-weight: 400;
@@ -489,12 +492,17 @@
 
             .stats {
               display: grid;
-              grid-template-columns: repeat(2, 1fr); 
-              grid-template-rows: repeat(2, 1fr);    
+              grid-template-columns: repeat(2, 1fr);
+              grid-template-rows: repeat(2, 1fr);
               row-gap: 0.2rem;
               column-gap: 0.5rem;
               font-size: 0.75rem;
               align-items: center;
+
+
+              .like-btn{
+                @include mixins.like-button()
+              }
 
               img {
                 width: 13px;

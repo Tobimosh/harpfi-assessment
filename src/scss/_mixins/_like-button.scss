@@ -1,0 +1,74 @@
+@mixin like-button($heart-color: #e74c3c) {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  outline: none;
+  transition: transform 0.1s;
+  display: inline-flex;
+  align-items: center;
+
+  img {
+    transition: filter 0.2s, transform 0.2s;
+    filter: grayscale(1);
+  }
+
+  &.liked img {
+    filter: grayscale(0) drop-shadow(0 0 4px $heart-color);
+  }
+
+  &.liked {
+    animation: liked-pop 0.2s;
+  }
+
+  @keyframes liked-pop {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.3);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  .pulse {
+    animation: heart-pulse 0.5s;
+  }
+
+  @keyframes heart-pulse {
+    0% {
+      transform: scale(1);
+    }
+    30% {
+      transform: scale(1.3);
+    }
+    60% {
+      transform: scale(0.95);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  .like-count {
+    font-weight: bold;
+    font-size: 1em;
+  }
+
+  .like-heart {
+    cursor: pointer;
+    transition: fill 0.2s;
+
+    .heart-path {
+      transition: fill 0.2s;
+      fill: none;
+    }
+
+    &.liked .heart-path {
+      fill: $heart-color;
+      stroke: $heart-color;
+    }
+  }
+}
