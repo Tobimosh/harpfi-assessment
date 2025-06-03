@@ -1,4 +1,4 @@
-# 📚 Korapay Book Club Dashboard
+# 📚 HarpFi Book Club Dashboard
 
 A responsive dashboard for the fictional **Korapay Book Club**. Built with **HTML**, **SCSS**, and **vanilla JavaScript** using **Vite** for modern frontend tooling. Includes robust search, a custom carousel, and unit tests for core logic.
 
