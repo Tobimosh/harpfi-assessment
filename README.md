@@ -137,5 +137,3 @@ This project uses **Jest** for unit testing, with **Babel** to support ES module
 Submitted code is owned by Korapay under the terms of the assessment.
 
 ---
-
-**If you have any questions or need further clarification, please reach out!**
