@@ -1,12 +1,12 @@
 import "./scss/index.scss";
 import {
   generateStars,
-  renderBookCard,
   renderBooks,
   syncSearchInputs,
+  isBookLiked,
 } from "./utils";
 
-import { books } from "./books";
+import { books, defaultBookSuggestions } from "./books";
 
 const prevButton = document.createElement("div");
 prevButton.className = "flickity-button flickity-prev-next-button previous";
@@ -23,40 +23,12 @@ const recentlyAddedBookList = document.getElementById("recentlyAddedBookList");
 const allBookList = document.getElementById("allBookList");
 const searchInputs = document.querySelectorAll(".searchInput");
 const searchSuggestions = document.getElementById("searchSuggestions");
-
-let currentActiveInput = null;
+const mobileSuggestions = document.getElementById("mobileSuggestions");
 
 const carouselWrapper = document.createElement("div");
 carouselWrapper.className = "carousel-wrapper";
 featuredCarousel.parentNode.insertBefore(carouselWrapper, featuredCarousel);
 carouselWrapper.appendChild(featuredCarousel);
-
-window.onload = function () {
-  const rightSvg = document.querySelector(
-    ".flickity-prev-next-button.next svg"
-  );
-  if (rightSvg) {
-    rightSvg.style.transform = "translateX(-48%) rotate(180deg)";
-  }
-
-  const rightArrowPath = "M10,50 L40,50 L80,50 L50,0 L50,100 L80,50 L40,50";
-  const leftArrowPath = "M90,50 L60,50 L20,50 L50,0 L50,100 L20,50 L60,50";
-
-  const leftArrow = document.querySelector(
-    ".flickity-prev-next-button.previous .arrow"
-  );
-  const rightArrow = document.querySelector(
-    ".flickity-prev-next-button.next .arrow"
-  );
-
-  if (leftArrow) {
-    leftArrow.setAttribute("d", leftArrowPath);
-  }
-
-  if (rightArrow) {
-    rightArrow.setAttribute("d", rightArrowPath);
-  }
-};
 
 function renderFeaturedBooks(bookArray, searchParams, carouselWrapper) {
   if (!featuredCarousel) return;
@@ -67,7 +39,6 @@ function renderFeaturedBooks(bookArray, searchParams, carouselWrapper) {
   let cardWidth = 0;
   const totalCards = bookArray.length;
   let isManualScrolling = false;
-  const lastScrollPosition = 0;
 
   const carouselTrack = document.createElement("div");
   carouselTrack.className = "carousel-track";
@@ -152,20 +123,24 @@ function renderFeaturedBooks(bookArray, searchParams, carouselWrapper) {
                     <span class="stars">${generateStars(book.rating)}</span>
                   </div>
                   <div class="stats">
-                    <div class="readers">
                       <img
                         src="/assets/icons/group-grey.svg"
                         alt="group-icon"
                       />
-                      <span>${book.readers}</span>
-                    </div>
-                    <div class="likes">
-                      <img
-                        src="/assets/icons/heart-grey.svg"
-                        alt="heart-icon"
-                      />
-                      <span>${book.likes}</span>
-                    </div>
+                               <button class="like-btn" aria-label="Like this book">
+                        <svg class="like-heart${
+                          isBookLiked(book) ? " liked" : ""
+                        }" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24">
+                          <path class="heart-path" fill="${
+                            isBookLiked(book) ? "#e74c3c" : "none"
+                          }" stroke="#999999" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.5 12.572L12 20l-7.5-7.428A5 5 0 1 1 12 6.006a5 5 0 1 1 7.5 6.572"/>
+                        </svg>
+                      </button>
+                      <div>${book.readers}</div>
+             
+                      <div class="like-count">${
+                        isBookLiked(book) ? book.likes + 1 : book.likes
+                      }</div>
                   </div>
                 </div>
               </div>
@@ -195,20 +170,23 @@ function renderFeaturedBooks(bookArray, searchParams, carouselWrapper) {
                     <span class="stars">${generateStars(book.rating)}</span>
                   </div>
                   <div class="stats">
-                    <div class="readers">
                       <img
                         src="/assets/icons/group-mobile.svg"
                         alt="group-icon"
                       />
-                      <span>${book.readers}</span>
-                    </div>
-                    <div class="likes">
-                      <img
-                        src="/assets/icons/heart-mobile.svg"
-                        alt="heart-icon"
-                      />
-                      <span>${book.likes}</span>
-                    </div>
+                             <button class="like-btn" aria-label="Like this book">
+                        <svg class="like-heart${
+                          isBookLiked(book) ? " liked" : ""
+                        }" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24">
+                          <path class="heart-path" fill="${
+                            isBookLiked(book) ? "#e74c3c" : "none"
+                          }" stroke="#999999" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.5 12.572L12 20l-7.5-7.428A5 5 0 1 1 12 6.006a5 5 0 1 1 7.5 6.572"/>
+                        </svg>
+                      </button>
+                      <div>${book.readers}</div>
+                      <div class="like-count">${
+                        isBookLiked(book) ? book.likes + 1 : book.likes
+                      }</div>
                   </div>
                 </div>
               </div>
@@ -235,6 +213,42 @@ function renderFeaturedBooks(bookArray, searchParams, carouselWrapper) {
         overlays.forEach((overlay) => overlay.classList.remove("active"));
       });
     });
+
+    [".overlay", ".mobile-overlay"].forEach((selector) => {
+      const overlay = cell.querySelector(selector);
+      if (overlay) {
+        const likeBtn = overlay.querySelector(".like-btn");
+        const likeCount = overlay.querySelector(".like-count");
+        const likeHeart = overlay.querySelector(".like-heart");
+        if (likeBtn && likeHeart) {
+          likeBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            e.stopPropagation(); 
+            const likeKey = `like_${book.title.replace(
+              /\s+/g,
+              "_"
+            )}_${book.author.replace(/\s+/g, "_")}`;
+            const isLiked = likeHeart.classList.contains("liked");
+            if (isLiked) {
+              likeHeart.classList.remove("liked");
+              likeHeart
+                .querySelector(".heart-path")
+                .setAttribute("fill", "none");
+              likeCount.textContent = parseInt(likeCount.textContent, 10) - 1;
+              localStorage.setItem(likeKey, "0");
+            } else {
+              likeHeart.classList.add("liked");
+              likeHeart
+                .querySelector(".heart-path")
+                .setAttribute("fill", "#e74c3c");
+              likeCount.textContent = parseInt(likeCount.textContent, 10) + 1;
+              localStorage.setItem(likeKey, "1");
+            }
+            document.dispatchEvent(new CustomEvent("book-like-toggled"));
+          });
+        }
+      }
+    });
   });
 
   carouselWrapper.appendChild(prevButton);
@@ -242,78 +256,81 @@ function renderFeaturedBooks(bookArray, searchParams, carouselWrapper) {
 
   const firstCard = featuredCarousel.querySelector(".carousel-cell");
   if (firstCard) {
-    cardWidth =
-      firstCard.offsetWidth +
-      Number.parseInt(getComputedStyle(firstCard).marginRight || 0);
+    const cardStyle = getComputedStyle(firstCard);
+    const marginLeft = parseInt(cardStyle.marginLeft || "0", 10);
+    const marginRight = parseInt(cardStyle.marginRight || "0", 10);
+    cardWidth = firstCard.offsetWidth + marginLeft + marginRight;
   }
 
-  // Make the carousel scrollable
   featuredCarousel.style.overflowX = "auto";
   featuredCarousel.style.scrollBehavior = "smooth";
   featuredCarousel.style.scrollSnapType = "x mandatory";
 
-  // Make each cell a scroll snap point
   const cells = featuredCarousel.querySelectorAll(".carousel-cell");
   cells.forEach((cell) => {
     cell.style.scrollSnapAlign = "start";
   });
 
-  // Hide scrollbar but keep functionality
   featuredCarousel.style.scrollbarWidth = "none";
   featuredCarousel.style.msOverflowStyle = "none";
   const style = document.createElement("style");
   style.textContent = `
-    #featured-carousel::-webkit-scrollbar {
-      display: none;
-    }
-  `;
+  #featured-carousel::-webkit-scrollbar {
+    display: none;
+  }
+`;
   document.head.appendChild(style);
 
-  // Update dots and buttons based on scroll position
   function updateIndicators() {
-    const scrollPosition = featuredCarousel.scrollLeft;
-    const viewportWidth = featuredCarousel.clientWidth;
-    const maxScroll = featuredCarousel.scrollWidth - viewportWidth;
+    const scrollLeft = featuredCarousel.scrollLeft;
+    const maxScrollLeft =
+      featuredCarousel.scrollWidth - featuredCarousel.clientWidth;
 
-    // Calculate current index based on scroll position
-    currentIndex = Math.round(scrollPosition / cardWidth);
-    if (currentIndex < 0) currentIndex = 0;
-    if (currentIndex >= totalCards) currentIndex = totalCards - 1;
+    let newIndex;
 
-    // Update dots
+    if (scrollLeft >= maxScrollLeft - 10) {
+      newIndex = totalCards - 1;
+    } else {
+      newIndex = Math.round(scrollLeft / cardWidth);
+      newIndex = Math.max(0, Math.min(totalCards - 1, newIndex));
+    }
+
+    currentIndex = newIndex;
+
     const dots = carouselDots.querySelectorAll(".dot");
     dots.forEach((dot, index) => {
       dot.classList.toggle("is-selected", index === currentIndex);
     });
-
-    // Update button states
-    prevButton.style.opacity = scrollPosition <= 5 ? "0.5" : "1";
-    nextButton.style.opacity = scrollPosition >= maxScroll - 5 ? "0.5" : "1";
   }
 
-  // Scroll to a specific index
   function scrollToIndex(index) {
-    if (index < 0) index = 0;
-    if (index >= totalCards) index = totalCards - 1;
+    index = Math.max(0, Math.min(totalCards - 1, index));
 
-    const scrollPosition = index * cardWidth;
+    currentIndex = index;
+
+    const dots = carouselDots.querySelectorAll(".dot");
+    dots.forEach((dot, dotIndex) => {
+      dot.classList.toggle("is-selected", dotIndex === currentIndex);
+    });
+
+    let scrollPosition;
+    if (index === totalCards - 1) {
+      scrollPosition =
+        featuredCarousel.scrollWidth - featuredCarousel.clientWidth;
+    } else {
+      scrollPosition = index * cardWidth;
+    }
+
     featuredCarousel.scrollTo({
       left: scrollPosition,
       behavior: "smooth",
     });
-
-    currentIndex = index;
-    updateIndicators();
   }
 
-  // Handle scroll events
   featuredCarousel.addEventListener("scroll", () => {
-    if (!isManualScrolling) {
-      updateIndicators();
-    }
+    if (!isManualScrolling) updateIndicators();
   });
 
-  // Handle button clicks
   prevButton.addEventListener("click", () => {
     isManualScrolling = true;
     scrollToIndex(currentIndex - 1);
@@ -330,7 +347,6 @@ function renderFeaturedBooks(bookArray, searchParams, carouselWrapper) {
     }, 500);
   });
 
-  // Handle dot clicks
   const dots = carouselDots.querySelectorAll(".dot");
   dots.forEach((dot, index) => {
     dot.addEventListener("click", () => {
@@ -342,7 +358,6 @@ function renderFeaturedBooks(bookArray, searchParams, carouselWrapper) {
     });
   });
 
-  // Initial update
   updateIndicators();
 }
 
@@ -355,14 +370,30 @@ function updateSuggestions(bookArray) {
   const uniqueSuggestions = [...new Set(allSuggestions)];
 
   searchSuggestions.innerHTML = uniqueSuggestions
-    .map((suggestion) => `<p>${suggestion}</p>`)
+    .map((suggestion, index) => `<li>${suggestion}</li>`)
     .join("");
   mobileSuggestions.innerHTML = uniqueSuggestions
-    .map((suggestion) => `<p>${suggestion}</p>`)
+    .map((suggestion, index) => `<li>${suggestion}</li>`)
     .join("");
   searchSuggestions.classList.toggle("hidden", uniqueSuggestions.length === 0);
   mobileSuggestions.classList.toggle("hidden", uniqueSuggestions.length === 0);
 }
+
+function rerenderAllBooks() {
+  renderBooks(
+    recentlyAddedBookList,
+    books.filter((b) => b.isRecentlyAdded),
+    "recently added books"
+  );
+  renderBooks(allBookList, books, "books");
+  renderFeaturedBooks(
+    books.filter((b) => b.isFeatured),
+    undefined,
+    carouselWrapper
+  );
+}
+
+document.addEventListener("book-like-toggled", rerenderAllBooks);
 
 function filterBooks(query) {
   const q = query.toLowerCase();
@@ -390,49 +421,23 @@ function filterBooks(query) {
 }
 
 function resetToDefaultView() {
-  renderBooks(
-    recentlyAddedBookList,
-    books.filter((b) => b.isRecentlyAdded)
-  );
-  renderBooks(allBookList, books);
-  renderFeaturedBooks(
-    books.filter((b) => b.isFeatured),
-    undefined,
-    carouselWrapper
-  );
+  rerenderAllBooks();
+
   searchSuggestions.classList.add("hidden");
   mobileSuggestions.classList.add("hidden");
 }
 
 document.addEventListener("DOMContentLoaded", () => {
   resetToDefaultView();
-  const dummySuggestions = [
-    `<p>
-            <span>Built to Last</span
-            ><span class="grey"> - Jim Collins, Jerry I. Porras...</span>
-          </p>`,
-    `
-          <p>
-            <span>Four Steps To The Epiphany</span>
-            <span class="grey"> - James McEnroe </span>
-          </p>
-          `,
-    `
-          <p><span>The Lean Start Up</span> <span>- Eric Reiss</span></p>`,
-    `<p class="grey">
-            <span>No Excuses</span>
-            <span class="grey">- Brian Tracy</span>
-          </p>`,
-  ];
 
   searchInputs.forEach((searchInput) => {
+    console.log(searchInput);
     searchInput.addEventListener("input", (e) => {
       const query = e.target.value.trim();
-      currentActiveInput = e.target;
 
       syncSearchInputs(e.target, e.target.value);
 
-      if (query) {
+      if (query.length) {
         filterBooks(query);
       } else {
         resetToDefaultView();
@@ -440,72 +445,84 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     searchInput.addEventListener("focus", (e) => {
-      currentActiveInput = e.target;
       const query = e.target.value.trim();
-      if (query) {
+
+      if (query.length) {
         filterBooks(query);
       }
       if (query.length === 0) {
-        searchSuggestions.innerHTML = dummySuggestions
+        searchSuggestions.innerHTML = defaultBookSuggestions
           .map((suggestion) => suggestion)
           .join("");
-        mobileSuggestions.innerHTML = dummySuggestions
+        mobileSuggestions.innerHTML = defaultBookSuggestions
           .map((suggestion) => suggestion)
           .join("");
       }
+
       searchSuggestions.classList.remove("hidden");
       mobileSuggestions.classList.remove("hidden");
     });
 
     searchInput.addEventListener("blur", () => {
-      searchSuggestions.innerHTML = dummySuggestions
+      searchSuggestions.innerHTML = defaultBookSuggestions
         .map((suggestion) => suggestion)
         .join("");
-      mobileSuggestions.innerHTML = dummySuggestions
+      mobileSuggestions.innerHTML = defaultBookSuggestions
         .map((suggestion) => suggestion)
         .join("");
+
+      // Adding a small delay to allow click events to fire before hiding
       setTimeout(() => {
         searchSuggestions.classList.add("hidden");
         mobileSuggestions.classList.add("hidden");
-      }, 200);
+      }, 150);
     });
   });
+
+  addlisteners();
 });
 
-searchSuggestions.addEventListener("click", (e) => {
-  console.log("e.target.innerText");
-  if (e.target.tagName === "P") {
-    const selectedValue = e.target.innerText.trim();
+const addlisteners = () => {
 
-    searchInputs.forEach((input) => {
-      input.value = selectedValue;
-    });
+  const freshSearchSuggestions = document.getElementById("searchSuggestions");
+  const freshMobileSuggestions = document.getElementById("mobileSuggestions");
 
-    filterBooks(selectedValue);
-    searchSuggestions.classList.add("hidden");
+  freshSearchSuggestions.addEventListener("mousedown", (e) => {
+    e.preventDefault();
+    const listItem = e.target.closest("li");
+    if (listItem) {
+      const selectedValue =
+        listItem.getAttribute("data-query") || listItem.textContent.trim();
 
-    if (currentActiveInput) {
-      currentActiveInput.focus();
+      searchInputs.forEach((input) => {
+        input.value = selectedValue;
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+      });
+
+      filterBooks(selectedValue);
+      freshSearchSuggestions.classList.add("hidden");
+      freshMobileSuggestions.classList.add("hidden");
     }
-  }
-});
+  });
 
-mobileSuggestions.addEventListener("click", (e) => {
-  if (e.target.tagName === "P") {
-    const selectedValue = e.target.innerText.trim();
+  freshMobileSuggestions.addEventListener("mousedown", (e) => {
+    e.preventDefault(); 
+    const listItem = e.target.closest("li");
+    if (listItem) {
+      const selectedValue =
+        listItem.getAttribute("data-query") || listItem.textContent.trim();
 
-    searchInputs.forEach((input) => {
-      input.value = selectedValue;
-    });
+      searchInputs.forEach((input) => {
+        input.value = selectedValue;
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+      });
 
-    filterBooks(selectedValue);
-    mobileSuggestions.classList.add("hidden");
-
-    if (currentActiveInput) {
-      currentActiveInput.focus();
+      filterBooks(selectedValue);
+      freshSearchSuggestions.classList.add("hidden");
+      freshMobileSuggestions.classList.add("hidden");
     }
-  }
-});
+  });
+};
 
 document.addEventListener("DOMContentLoaded", () => {
   const sidebar = document.querySelector(".sidebar");

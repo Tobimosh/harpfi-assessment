@@ -55,6 +55,12 @@ describe("filterBooks", () => {
 });
 
 describe("renderBookCard", () => {
+  const likeKey = "like_Test_Book_Test_Author";
+
+  beforeEach(() => {
+    localStorage.clear();
+  });
+
   it("creates a book card element with correct content", () => {
     const book = {
       title: "Test Book",
@@ -69,13 +75,78 @@ describe("renderBookCard", () => {
       labels: "Test",
     };
     const card = renderBookCard(book);
+
     expect(card).toBeInstanceOf(HTMLElement);
     expect(card.querySelector(".title").textContent).toBe("Test Book");
     expect(card.querySelector(".author").textContent).toContain("Test Author");
     expect(card.querySelector(".genre").textContent).toBe("Test Genre");
     expect(card.querySelector(".status").textContent).toBe("Available");
   });
+
+  it("renders correct initial like state and toggles on click", () => {
+    const book = {
+      title: "Test Book",
+      author: "Test Author",
+      year: 2020,
+      genre: "Test Genre",
+      rating: 4,
+      status: "Available",
+      readers: 10,
+      likes: 5,
+      coverUrl: "test.png",
+    };
+    const card = renderBookCard(book);
+
+    const likeBtn = card.querySelector(".like-btn");
+    const likeCount = card.querySelector(".like-count");
+    const heartPath = card.querySelector(".heart-path");
+
+
+    expect(likeBtn).toBeTruthy();
+    expect(likeCount).toBeTruthy();
+    expect(heartPath).toBeTruthy();
+
+    const initialLikes = parseInt(likeCount.textContent, 10);
+    expect(initialLikes).toBe(5);
+    expect(heartPath.getAttribute("fill")).toBe("none");
+
+
+    likeBtn.click();
+    expect(heartPath.getAttribute("fill")).toBe("#e74c3c");
+    expect(parseInt(likeCount.textContent, 10)).toBe(6);
+    expect(localStorage.getItem("like_Test_Book_Test_Author")).toBe("1");
+
+    likeBtn.click();
+    expect(heartPath.getAttribute("fill")).toBe("none");
+    expect(parseInt(likeCount.textContent, 10)).toBe(5);
+    expect(localStorage.getItem("like_Test_Book_Test_Author")).toBe("0");
+  });
+  
+
+  it("shows already liked state from localStorage", () => {
+    localStorage.setItem(likeKey, "1");
+
+    const book = {
+      title: "Test Book",
+      author: "Test Author",
+      year: 2020,
+      genre: "Test Genre",
+      rating: 4,
+      status: "Available",
+      readers: 10,
+      likes: 5,
+      coverUrl: "test.png",
+    };
+    const card = renderBookCard(book);
+
+    const likeCount = card.querySelector(".like-count");
+    const heartPath = card.querySelector(".heart-path");
+
+    expect(parseInt(likeCount.textContent, 10)).toBe(6);
+    expect(heartPath.getAttribute("fill")).toBe("#e74c3c");
+  });
 });
+
 
 describe("renderBooks", () => {
   let container;
