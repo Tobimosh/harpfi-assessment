@@ -7,7 +7,7 @@ A responsive dashboard for the fictional **HarpFi Book Club**. Built with **HTML
 ## 📁 Project Structure
 
 ```bash
-korapay-dashboard/
+harpfi-dashboard/
 ├── public/                # Static assets (images, icons)
 ├── src/
 │   ├── index.html         # Main HTML entry point
