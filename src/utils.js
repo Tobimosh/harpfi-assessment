@@ -6,6 +6,11 @@ import {
 } from "./main";
 import { books } from "./books";
 
+/**
+ * Generates a string of star icons (filled/empty) for a given rating (out of 5).
+ * @param {number} rating - The book's rating (1-5)
+ * @returns {string} HTML string of star elements
+ */
 export function generateStars(rating) {
   return Array.from({ length: 5 }, (_, i) =>
     i < rating
@@ -14,6 +19,12 @@ export function generateStars(rating) {
   ).join("");
 }
 
+/**
+ * Filters an array of books by a search query (matches title, author, or genre).
+ * @param {Array} books - Array of book objects
+ * @param {string} query - Search string
+ * @returns {Array} Filtered books
+ */
 export function filterBooks(books, query) {
   const q = query.toLowerCase();
   return books.filter(
@@ -24,7 +35,13 @@ export function filterBooks(books, query) {
   );
 }
 
+/**
+ * Creates a DOM element for a single book card, including like button logic.
+ * @param {Object} book - Book object
+ * @returns {HTMLElement} Book card element
+ */
 export function renderBookCard(book) {
+  // Unique key for localStorage like state
   const likeKey = `like_${book.title.replace(
     /\s+/g,
     "_"
@@ -67,6 +84,7 @@ export function renderBookCard(book) {
         </div>
       </div>`;
 
+  // --- Like Button Logic (syncs like state and count, updates all sections) ---
   const likeBtn = bookCard.querySelector(".like-btn");
   const likeCount = bookCard.querySelector(".like-count");
   const likeHeart = bookCard.querySelector(".like-heart");
@@ -85,6 +103,7 @@ export function renderBookCard(book) {
         likeCount.textContent = parseInt(likeCount.textContent, 10) + 1;
         localStorage.setItem(likeKey, "1");
       }
+      // Rerender all book sections to sync like state
       renderFeaturedBooks(
         books.filter((b) => b.isFeatured),
         undefined,
@@ -102,6 +121,13 @@ export function renderBookCard(book) {
   return bookCard;
 }
 
+/**
+ * Renders a list of books into a container. Handles empty state.
+ * @param {HTMLElement} container - The DOM element to render into
+ * @param {Array} bookArray - Array of book objects
+ * @param {string} sectionName - Section label for empty state
+ * @param {string} searchParams - Search query for empty state
+ */
 export function renderBooks(
   container,
   bookArray,
@@ -120,6 +146,12 @@ export function renderBooks(
   });
 }
 
+/**
+ * Keeps multiple search input fields in sync (desktop/mobile).
+ * @param {NodeList|Array} searchInputs - All search input elements
+ * @param {HTMLElement} activeInput - The input that triggered the change
+ * @param {string} value - The value to sync
+ */
 export function syncSearchInputs(searchInputs, activeInput, value) {
   Array.from(searchInputs).forEach((input) => {
     if (input !== activeInput) {
@@ -128,6 +160,11 @@ export function syncSearchInputs(searchInputs, activeInput, value) {
   });
 }
 
+/**
+ * Checks if a book is liked by the user (localStorage).
+ * @param {Object} book - Book object
+ * @returns {boolean} True if liked, false otherwise
+ */
 export function isBookLiked(book) {
   const likeKey = `like_${book.title.replace(
     /\s+/g,

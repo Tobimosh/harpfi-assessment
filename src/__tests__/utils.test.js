@@ -6,14 +6,17 @@ import {
   syncSearchInputs,
 } from "../utils";
 
+// Test suite for generateStars utility
 describe("generateStars", () => {
   it("returns 5 filled stars for rating 5", () => {
+    // Should return 5 filled stars
     expect(generateStars(5)).toBe(
       '<span class="star filled">★</span>'.repeat(5)
     );
   });
 
   it("returns 3 filled and 2 empty stars for rating 3", () => {
+    // Should return 3 filled, 2 empty
     expect(generateStars(3)).toBe(
       '<span class="star filled">★</span>'.repeat(3) +
         '<span class="star empty">★</span>'.repeat(2)
@@ -21,12 +24,14 @@ describe("generateStars", () => {
   });
 
   it("returns all empty stars for rating 0", () => {
+    // Should return 5 empty stars
     expect(generateStars(0)).toBe(
       '<span class="star empty">★</span>'.repeat(5)
     );
   });
 });
 
+// Test suite for filterBooks utility
 describe("filterBooks", () => {
   const books = [
     { title: "A", author: "B", genre: "C" },
@@ -35,25 +40,30 @@ describe("filterBooks", () => {
   ];
 
   it("filters by title", () => {
+    // Should match by title
     expect(filterBooks(books, "Lean")).toEqual([
       { title: "The Lean Startup", author: "Eric Reis", genre: "Business" },
     ]);
   });
   it("filters by author", () => {
+    // Should match by author
     expect(filterBooks(books, "Eric")).toEqual([
       { title: "The Lean Startup", author: "Eric Reis", genre: "Business" },
     ]);
   });
   it("filters by genre", () => {
+    // Should match by genre
     expect(filterBooks(books, "Business")).toEqual([
       { title: "The Lean Startup", author: "Eric Reis", genre: "Business" },
     ]);
   });
   it("returns empty for no match", () => {
+    // Should return empty array if no match
     expect(filterBooks(books, "Z")).toEqual([]);
   });
 });
 
+// Test suite for renderBookCard utility
 describe("renderBookCard", () => {
   const likeKey = "like_Test_Book_Test_Author";
 
@@ -62,6 +72,7 @@ describe("renderBookCard", () => {
   });
 
   it("creates a book card element with correct content", () => {
+    // Should create a DOM element with correct book info
     const book = {
       title: "Test Book",
       author: "Test Author",
@@ -84,6 +95,7 @@ describe("renderBookCard", () => {
   });
 
   it("renders correct initial like state and toggles on click", () => {
+    // Should toggle like state and update count/localStorage
     const book = {
       title: "Test Book",
       author: "Test Author",
@@ -101,7 +113,6 @@ describe("renderBookCard", () => {
     const likeCount = card.querySelector(".like-count");
     const heartPath = card.querySelector(".heart-path");
 
-
     expect(likeBtn).toBeTruthy();
     expect(likeCount).toBeTruthy();
     expect(heartPath).toBeTruthy();
@@ -109,7 +120,6 @@ describe("renderBookCard", () => {
     const initialLikes = parseInt(likeCount.textContent, 10);
     expect(initialLikes).toBe(5);
     expect(heartPath.getAttribute("fill")).toBe("none");
-
 
     likeBtn.click();
     expect(heartPath.getAttribute("fill")).toBe("#e74c3c");
@@ -121,9 +131,9 @@ describe("renderBookCard", () => {
     expect(parseInt(likeCount.textContent, 10)).toBe(5);
     expect(localStorage.getItem("like_Test_Book_Test_Author")).toBe("0");
   });
-  
 
   it("shows already liked state from localStorage", () => {
+    // Should show liked state if localStorage is set
     localStorage.setItem(likeKey, "1");
 
     const book = {
@@ -147,7 +157,7 @@ describe("renderBookCard", () => {
   });
 });
 
-
+// Test suite for renderBooks utility
 describe("renderBooks", () => {
   let container;
   beforeEach(() => {
@@ -155,6 +165,7 @@ describe("renderBooks", () => {
   });
 
   it("renders book cards for each book", () => {
+    // Should render a card for each book
     const books = [
       {
         title: "Book 1",
@@ -186,6 +197,7 @@ describe("renderBooks", () => {
   });
 
   it("renders not-found message if no books", () => {
+    // Should show not-found message if no books
     renderBooks(container, [], "books", "query");
     expect(container.textContent).toContain(
       "No books found with the search criteria"
@@ -194,8 +206,10 @@ describe("renderBooks", () => {
   });
 });
 
+// Test suite for syncSearchInputs utility
 describe("syncSearchInputs", () => {
   it("syncs all search inputs except the active one", () => {
+    // Should update all other inputs to match value
     const input1 = document.createElement("input");
     const input2 = document.createElement("input");
     const input3 = document.createElement("input");

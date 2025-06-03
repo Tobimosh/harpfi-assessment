@@ -1,3 +1,7 @@
+// src/scss/_mixins/_like-button.scss
+// Mixin for styling the like button and heart animation.
+// Allows customization of heart color.
+
 @mixin like-button($heart-color: #e74c3c) {
   background: none;
   border: none;
@@ -10,17 +14,18 @@
 
   img {
     transition: filter 0.2s, transform 0.2s;
-    filter: grayscale(1);
+    filter: grayscale(1); // Default: greyed out
   }
 
   &.liked img {
-    filter: grayscale(0) drop-shadow(0 0 4px $heart-color);
+    filter: grayscale(0) drop-shadow(0 0 4px $heart-color); // Highlight liked
   }
 
   &.liked {
-    animation: liked-pop 0.2s;
+    animation: liked-pop 0.2s; // Pop animation on like
   }
 
+  // Heart pop animation
   @keyframes liked-pop {
     0% {
       transform: scale(1);
@@ -34,9 +39,10 @@
   }
 
   .pulse {
-    animation: heart-pulse 0.5s;
+    animation: heart-pulse 0.5s; // Pulse animation
   }
 
+  // Heart pulse animation
   @keyframes heart-pulse {
     0% {
       transform: scale(1);
@@ -63,7 +69,7 @@
 
     .heart-path {
       transition: fill 0.2s;
-      fill: none;
+      fill: none; // Default: not filled
     }
 
     &.liked .heart-path {

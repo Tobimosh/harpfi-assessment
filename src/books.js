@@ -1,3 +1,16 @@
+// src/books.js
+// Contains the book data and default search suggestions for the Korapay Book Club Dashboard.
+// Exports:
+//   - books: Array of book objects used throughout the app
+//   - defaultBookSuggestions: HTML snippets for search suggestion dropdowns
+
+/**
+ * Array of book objects used in the dashboard.
+ * Each book contains:
+ *   - title, author, year, genre, rating, status, readers, likes, coverUrl, labels
+ *   - isFeatured: boolean (for featured section)
+ *   - isRecentlyAdded: boolean (for recently added section)
+ */
 export const books = [
   {
     title: "The Effective Engineer",
@@ -141,6 +154,10 @@ export const books = [
   },
 ];
 
+/**
+ * Default search suggestions (HTML <li> elements) for the search dropdown.
+ * Used to provide quick access to popular or example books.
+ */
 export const defaultBookSuggestions = [
   `<li data-query="built to last">
             <span>Built to Last</span

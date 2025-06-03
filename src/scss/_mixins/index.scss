@@ -1,3 +1,4 @@
 // scss/_mixins/index.scss
-@forward 'like-button';
-@forward 'search-bar';
+// Central entry point for all SCSS mixins. Forwards individual mixin files for use in the app.
+@forward "like-button";
+@forward "search-bar";
