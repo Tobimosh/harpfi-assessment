@@ -40,6 +40,8 @@ npm run dev
 
 - Open [http://localhost:5173/](http://localhost:5173/) in your browser.
 
+- 🚀 Project is live at [https://harpfi-assessment.vercel.app/](https://harpfi-assessment.vercel.app/).
+
 ### 3. **Build for production**
 
 ```bash
