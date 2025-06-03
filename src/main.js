@@ -19,18 +19,18 @@ nextButton.innerHTML = `
         <img class="flickity-button-icon next" src="/assets/icons/prev.svg" alt="Next" />`;
 
 const featuredCarousel = document.getElementById("featured-carousel");
-const recentlyAddedBookList = document.getElementById("recentlyAddedBookList");
-const allBookList = document.getElementById("allBookList");
+export const recentlyAddedBookList = document.getElementById("recentlyAddedBookList");
+export const allBookList = document.getElementById("allBookList");
 const searchInputs = document.querySelectorAll(".searchInput");
 const searchSuggestions = document.getElementById("searchSuggestions");
 const mobileSuggestions = document.getElementById("mobileSuggestions");
 
-const carouselWrapper = document.createElement("div");
+export const carouselWrapper = document.createElement("div");
 carouselWrapper.className = "carousel-wrapper";
 featuredCarousel.parentNode.insertBefore(carouselWrapper, featuredCarousel);
 carouselWrapper.appendChild(featuredCarousel);
 
-function renderFeaturedBooks(bookArray, searchParams, carouselWrapper) {
+export function renderFeaturedBooks(bookArray, searchParams, carouselWrapper) {
   if (!featuredCarousel) return;
 
   featuredCarousel.innerHTML = "";
@@ -223,7 +223,7 @@ function renderFeaturedBooks(bookArray, searchParams, carouselWrapper) {
         if (likeBtn && likeHeart) {
           likeBtn.addEventListener("click", (e) => {
             e.preventDefault();
-            e.stopPropagation(); 
+            e.stopPropagation();
             const likeKey = `like_${book.title.replace(
               /\s+/g,
               "_"
@@ -244,7 +244,12 @@ function renderFeaturedBooks(bookArray, searchParams, carouselWrapper) {
               likeCount.textContent = parseInt(likeCount.textContent, 10) + 1;
               localStorage.setItem(likeKey, "1");
             }
-            document.dispatchEvent(new CustomEvent("book-like-toggled"));
+            renderBooks(allBookList, books, "books");
+            renderBooks(
+              recentlyAddedBookList,
+              books.filter((b) => b.isRecentlyAdded),
+              "recently added books"
+            );
           });
         }
       }
@@ -393,8 +398,6 @@ function rerenderAllBooks() {
   );
 }
 
-document.addEventListener("book-like-toggled", rerenderAllBooks);
-
 function filterBooks(query) {
   const q = query.toLowerCase();
   const matches = (book) =>
@@ -483,7 +486,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 const addlisteners = () => {
-
   const freshSearchSuggestions = document.getElementById("searchSuggestions");
   const freshMobileSuggestions = document.getElementById("mobileSuggestions");
 
@@ -506,7 +508,7 @@ const addlisteners = () => {
   });
 
   freshMobileSuggestions.addEventListener("mousedown", (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
     const listItem = e.target.closest("li");
     if (listItem) {
       const selectedValue =

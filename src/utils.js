@@ -1,3 +1,11 @@
+import {
+  renderFeaturedBooks,
+  carouselWrapper,
+  allBookList,
+  recentlyAddedBookList,
+} from "./main";
+import { books } from "./books";
+
 export function generateStars(rating) {
   return Array.from({ length: 5 }, (_, i) =>
     i < rating
@@ -77,7 +85,17 @@ export function renderBookCard(book) {
         likeCount.textContent = parseInt(likeCount.textContent, 10) + 1;
         localStorage.setItem(likeKey, "1");
       }
-      document.dispatchEvent(new CustomEvent("book-like-toggled"));
+      renderFeaturedBooks(
+        books.filter((b) => b.isFeatured),
+        undefined,
+        carouselWrapper
+      );
+      renderBooks(allBookList, books, "books");
+      renderBooks(
+        recentlyAddedBookList,
+        books.filter((b) => b.isRecentlyAdded),
+        "recently added books"
+      );
     });
   }
 
